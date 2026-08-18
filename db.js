@@ -79,11 +79,10 @@ INSERT INTO ministers (name, title, sort_order) VALUES
   ('Arjun Saxena', 'Cofather', 2),
   ('Bhavin', 'Cofather', 3),
   ('Mario Martin', 'External Affairs Minister', 4),
-  ('Nishant Jain', 'Internal Affairs Minister', 5),
-  ('Kuhaan Hart', 'Transportation & Road Minister', 6),
-  ('Srijip', 'Education Minister', 7),
-  ('Shreekrishna', 'Content Creator Minister', 8),
-  ('Shivam', 'Tech Minister', 9);
+  ('Kuhaan Hart', 'Transportation & Road Minister', 5),
+  ('Srijip', 'Education Minister', 6),
+  ('Shreekrishna', 'Content Creator Minister', 7),
+  ('Shivam', 'Tech Minister', 8);
 `;
 
 let sql;
@@ -191,6 +190,48 @@ export async function restoreArjunCitizenship(sqlClient) {
   `;
 }
 
+const NISHANT_BLACKLIST_NOTE =
+  "Belligerent of the Sovereign of Cheria Insulted the Co-Fathers";
+
+export async function blacklistNishantJain(sqlClient) {
+  const updated = await sqlClient`
+    update citizens
+    set blacklisted = true,
+        blacklist_note = ${NISHANT_BLACKLIST_NOTE},
+        blacklisted_at = coalesce(blacklisted_at, now()),
+        status = 'rejected',
+        review_note = ${NISHANT_BLACKLIST_NOTE},
+        reviewed_at = now()
+    where lower(given_name) = 'nishant'
+      and lower(family_name) = 'jain'
+      and coalesce(role, 'citizen') <> 'admin'
+    returning id
+  `;
+  if (updated[0]) return;
+  await sqlClient`
+    insert into citizens (
+      given_name, family_name, dob, region, email, address, terms_accepted,
+      password_hash, role, status, review_note, reviewed_at,
+      blacklisted, blacklist_note, blacklisted_at
+    ) values (
+      'Nishant', 'Jain', '2000-01-01', 'central_blossom',
+      'nishant.jain@barred.cheria',
+      'Removed from Internal Affairs',
+      true, '', 'citizen', 'rejected', ${NISHANT_BLACKLIST_NOTE}, now(),
+      true, ${NISHANT_BLACKLIST_NOTE}, now()
+    )
+    on conflict (email) do update
+    set given_name = 'Nishant',
+        family_name = 'Jain',
+        blacklisted = true,
+        blacklist_note = ${NISHANT_BLACKLIST_NOTE},
+        blacklisted_at = coalesce(citizens.blacklisted_at, now()),
+        status = 'rejected',
+        review_note = ${NISHANT_BLACKLIST_NOTE},
+        reviewed_at = now()
+  `;
+}
+
 export async function getReadySql() {
   if (!getDatabaseUrl()) {
     throw new Error("DATABASE_URL is not set.");
@@ -198,7 +239,8 @@ export async function getReadySql() {
   sql ??= createSql();
   schemaPromise ??= ensureSchema(sql)
     .then(() => ensureAdmin(sql))
-    .then(() => restoreArjunCitizenship(sql));
+    .then(() => restoreArjunCitizenship(sql))
+    .then(() => blacklistNishantJain(sql));
   await schemaPromise;
   return sql;
 }
