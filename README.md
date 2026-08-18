@@ -50,7 +50,7 @@ Environment variables:
 
 Health check: `GET http://localhost:3000/api/health`
 
-Schema lives in `schema.sql` and is applied automatically on server start. Static-only preview (`npx serve .`) still works for browsing, but registration will not persist unless `npm start` is running.
+Schema lives in `schema.sql` and is applied on first API request. Static pages deploy on Vercel; registration uses `/api/register`. Set `DATABASE_URL` in the Vercel project environment.
 
 ## Project structure
 
