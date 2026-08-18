@@ -44,11 +44,12 @@ INSERT INTO services (slug, name, description) VALUES
   ('heritage', 'Cultural Heritage', 'History and floral festivals of Cheria.')
 ON CONFLICT (slug) DO NOTHING;
 
-INSERT INTO ministers (name, title, sort_order)
-SELECT * FROM (VALUES
-  ('Lord Chancellor Alistair Thorne', 'Head of Government', 1),
-  ('Lady Elara Vance', 'Ministry of Heritage', 2),
-  ('Sir Julian Croft', 'Ministry of Commerce', 3),
-  ('Dr. Seraphina Lin', 'Ministry of Ecology', 4)
-) AS seed(name, title, sort_order)
-WHERE NOT EXISTS (SELECT 1 FROM ministers);
+DELETE FROM ministers;
+INSERT INTO ministers (name, title, sort_order) VALUES
+  ('Charuhas Kantipudi', 'Cofather', 1),
+  ('Arjun Saxena', 'Cofather', 2),
+  ('Bhavin', 'Cofather', 3),
+  ('Mario Martin', 'External Affairs Minister', 4),
+  ('Srijip', 'Education Minister', 5),
+  ('Shreekrishna', 'Content Creator Minister', 6),
+  ('Shivam', 'Tech Minister', 7);
