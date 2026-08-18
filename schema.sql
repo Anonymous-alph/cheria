@@ -44,6 +44,12 @@ ALTER TABLE citizens ADD COLUMN IF NOT EXISTS official_name TEXT NOT NULL DEFAUL
 ALTER TABLE citizens ADD COLUMN IF NOT EXISTS recommendation TEXT NOT NULL DEFAULT '';
 ALTER TABLE citizens ADD COLUMN IF NOT EXISTS applied_at TIMESTAMPTZ;
 
+UPDATE citizens
+SET applied_at = COALESCE(applied_at, created_at)
+WHERE role IS DISTINCT FROM 'admin'
+  AND status IN ('pending', 'approved', 'rejected')
+  AND applied_at IS NULL;
+
 INSERT INTO regions (slug, name) VALUES
   ('central_blossom', 'Central Blossom District'),
   ('eastern_woods', 'Eastern Redwood Expanse'),

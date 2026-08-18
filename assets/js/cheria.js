@@ -1,6 +1,5 @@
 (() => {
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const PAGE_LINKS = "a[href$='.html']";
 
   const toastStack = document.createElement("div");
   toastStack.className = "toast-stack";
@@ -130,44 +129,10 @@
     document.body.style.overflow = "";
   }
 
-  function homeUrl() {
-    return new URL("index.html", window.location.href).href;
-  }
-
-  function goHome() {
-    window.location.assign(homeUrl());
-  }
-
-  function navigate(href) {
-    const next = new URL(href, window.location.href);
-    if (next.origin === window.location.origin && next.pathname === window.location.pathname) {
-      return;
-    }
-    window.location.assign(href);
-  }
-
   function initBrandHome() {
     document.querySelectorAll("a.brand-mark").forEach((link) => {
       link.setAttribute("href", "index.html");
       link.setAttribute("aria-label", "Kingdom of Cheria home");
-      link.addEventListener("click", (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        goHome();
-      });
-    });
-  }
-
-  function initPageTransitions() {
-    document.querySelectorAll(PAGE_LINKS).forEach((link) => {
-      if (link.classList.contains("brand-mark")) return;
-      link.addEventListener("click", (event) => {
-        const url = new URL(link.href, window.location.href);
-        if (url.origin !== window.location.origin) return;
-        if (url.pathname === window.location.pathname) return;
-        event.preventDefault();
-        navigate(url.href);
-      });
     });
   }
 
@@ -260,12 +225,17 @@
   }
 
   function getToken() {
-    return localStorage.getItem("cheria_jwt") || "";
+    return localStorage.getItem("cheria_jwt") || sessionStorage.getItem("cheria_jwt") || "";
   }
 
   function setToken(token) {
-    if (token) localStorage.setItem("cheria_jwt", token);
-    else localStorage.removeItem("cheria_jwt");
+    if (token) {
+      localStorage.setItem("cheria_jwt", token);
+      sessionStorage.setItem("cheria_jwt", token);
+    } else {
+      localStorage.removeItem("cheria_jwt");
+      sessionStorage.removeItem("cheria_jwt");
+    }
   }
 
   function authHeaders() {
@@ -379,8 +349,22 @@
 
   function bindLogout() {
     document.querySelectorAll("[data-logout]").forEach((btn) => {
-      btn.addEventListener("click", () => signOut("login.html"));
+      btn.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        signOut("login.html");
+      });
     });
+  }
+
+  function restoreSession() {
+    return api("/api/me")
+      .then((res) => res.json().then((payload) => ({ res, payload })))
+      .then(({ res, payload }) => {
+        if (res.ok && payload.ok && payload.token) setToken(payload.token);
+        return { res, payload };
+      })
+      .catch(() => ({ res: { ok: false, status: 0 }, payload: {} }));
   }
 
   function fillCitizen(citizen) {
@@ -468,17 +452,13 @@
     const workspace = document.getElementById("portal-workspace");
     if (!application || !pending || !rejected || !workspace) return;
 
-    if (!getToken()) {
-      window.location.assign("login.html?next=portal.html");
-      return;
-    }
-
-    api("/api/me")
-      .then((res) => res.json().then((payload) => ({ res, payload })))
-      .then(({ res, payload }) => {
+    restoreSession().then(({ res, payload }) => {
         if (!res.ok || !payload.ok || !payload.citizen) {
-          setToken("");
-          window.location.assign("login.html?next=portal.html");
+          if (res.status === 401) {
+            window.location.assign("login.html?next=portal.html");
+          } else {
+            toast("Could not open your portal.");
+          }
           return;
         }
         const citizen = payload.citizen;
@@ -509,9 +489,6 @@
         }
         showPortalSection(pending, true);
         initReveal();
-      })
-      .catch(() => {
-        toast("Could not open your portal.");
       });
   }
 
@@ -558,21 +535,25 @@
     const list = document.querySelector("[data-applications]");
     if (!list) return;
 
-    if (!getToken()) {
-      window.location.assign("login.html?next=admin.html");
-      return;
-    }
+    const rank = (status) => {
+      if (status === "pending") return 0;
+      if (status === "registered") return 1;
+      if (status === "approved") return 2;
+      return 3;
+    };
 
     const render = (applications) => {
-      if (!applications.length) {
+      const rows = [...applications].sort((a, b) => rank(a.status) - rank(b.status));
+      if (!rows.length) {
         list.innerHTML = '<p class="text-on-surface-variant">No citizenship applications have been submitted yet.</p>';
         return;
       }
-      list.innerHTML = applications
+      list.innerHTML = rows
         .map((app) => {
           const region = REGIONS[app.region] || app.region;
           const dob = String(app.dob || "").slice(0, 10);
-          const pending = app.status === "pending";
+          const pending = app.status === "pending" || app.status === "registered";
+          const hasDossier = Boolean(app.join_reason || app.current_citizenship);
           return `
             <article class="card-lift bg-surface-container-lowest rounded-xl p-6 border border-primary-container/30" data-reveal style="border-top:4px solid #8B0000" data-app="${escapeHtml(app.id)}">
               <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
@@ -582,7 +563,7 @@
                   <p class="text-on-surface-variant mt-1">${escapeHtml(app.email)}</p>
                   <p class="text-on-surface-variant mt-2">${escapeHtml(region)} · Born ${escapeHtml(dob || "—")}</p>
                   <p class="text-on-surface-variant mt-2">${escapeHtml(app.address || "No residential address given.")}</p>
-                  ${applicationDetails(app)}
+                  ${hasDossier ? applicationDetails(app) : '<p class="mt-4 text-on-surface-variant">Account registered; citizenship dossier not completed yet.</p>'}
                   ${app.review_note ? `<p class="mt-3 text-secondary font-label-md text-label-md">Ministry note: ${escapeHtml(app.review_note)}</p>` : ""}
                 </div>
                 ${
@@ -606,7 +587,6 @@
         .then((res) => res.json().then((payload) => ({ res, payload })))
         .then(({ res, payload }) => {
           if (res.status === 401) {
-            setToken("");
             window.location.assign("login.html?next=admin.html");
             return;
           }
@@ -616,17 +596,25 @@
             return;
           }
           if (!res.ok || !payload.ok) {
-            toast(payload.error || "Could not load applications.");
+            const message = payload.error || "Could not load applications.";
+            list.innerHTML = `<p class="text-on-surface-variant">${escapeHtml(message)}</p>`;
+            toast(message);
             return;
           }
           const name = document.querySelector("[data-admin-name]");
-          if (name) name.textContent = `Citizenship review (${payload.applications?.length || 0})`;
-          render(payload.applications || []);
+          const apps = payload.applications || [];
+          if (name) name.textContent = `Citizenship review (${apps.length})`;
+          render(apps);
+        })
+        .catch(() => {
+          list.innerHTML = '<p class="text-on-surface-variant">Could not reach the registry.</p>';
         });
 
     list.addEventListener("click", async (event) => {
       const button = event.target.closest("[data-review]");
       if (!button) return;
+      event.preventDefault();
+      event.stopPropagation();
       const card = button.closest("[data-app]");
       const id = card?.getAttribute("data-app");
       const action = button.getAttribute("data-review");
@@ -652,7 +640,18 @@
       }
     });
 
-    load();
+    restoreSession().then(({ res, payload }) => {
+      if (res.status === 401 || !payload.citizen) {
+        window.location.assign("login.html?next=admin.html");
+        return;
+      }
+      if (payload.citizen.role !== "admin") {
+        toast("Admin access only.");
+        window.location.assign("portal.html");
+        return;
+      }
+      load();
+    });
   }
 
   function initTooltips() {
@@ -684,7 +683,6 @@
   initDrawer();
   initModals();
   initBrandHome();
-  initPageTransitions();
   initCounters();
   initRings();
   initTasks();
@@ -696,4 +694,7 @@
   initAdmin();
   bindLogout();
   initTooltips();
+  if (!document.getElementById("portal-workspace") && !document.querySelector("[data-applications]")) {
+    restoreSession();
+  }
 })();
