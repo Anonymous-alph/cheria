@@ -601,6 +601,11 @@
       .replace(/"/g, "&quot;");
   }
 
+  function citizenRoleLabel(person) {
+    const office = String(person?.office || "").trim();
+    return office ? `Citizen · ${office}` : "Citizen";
+  }
+
   function initAdmin() {
     const list = document.querySelector("[data-applications]");
     if (!list) return;
@@ -779,7 +784,7 @@
               const region = REGIONS[person.region] || person.region || "Cheria";
               return `
                 <article class="card-lift bg-surface-container-lowest rounded-xl p-6 border border-primary-container/30" data-reveal style="border-top:4px solid #8B0000">
-                  <p class="font-label-md text-label-md text-secondary uppercase tracking-widest mb-1">Citizen</p>
+                  <p class="font-label-md text-label-md text-secondary uppercase tracking-widest mb-1">${escapeHtml(citizenRoleLabel(person))}</p>
                   <h3 class="font-headline-md text-headline-md text-primary">${escapeHtml(person.given_name)} ${escapeHtml(person.family_name)}</h3>
                   <p class="text-on-surface-variant mt-1">${escapeHtml(person.email)}</p>
                   <p class="text-on-surface-variant mt-2">${escapeHtml(region)}</p>
@@ -923,7 +928,7 @@
             return `
               <article class="card-lift bg-surface-container-lowest border border-primary-container/50 rounded-xl p-6" data-reveal style="border-top:4px solid #8B0000">
                 <div class="w-14 h-14 rounded-full mb-4 bg-primary-container text-on-primary-container flex items-center justify-center font-headline-md">${escapeHtml(initials)}</div>
-                <p class="font-label-md text-label-md text-secondary uppercase tracking-widest mb-1">Citizen</p>
+                <p class="font-label-md text-label-md text-secondary uppercase tracking-widest mb-1">${escapeHtml(citizenRoleLabel(person))}</p>
                 <h2 class="font-headline-md text-headline-md text-primary">${escapeHtml(person.given_name)} ${escapeHtml(person.family_name)}</h2>
                 <p class="text-on-surface-variant mt-2">${escapeHtml(region)}</p>
               </article>`;
