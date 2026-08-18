@@ -69,7 +69,7 @@ ON CONFLICT (slug) DO NOTHING;
 
 DELETE FROM ministers;
 INSERT INTO ministers (name, title, sort_order) VALUES
-  ('Charuhas Kantipudi', 'Cofather', 1),
+  ('Charuhas Kantipudi', 'Supreme Leader', 1),
   ('Arjun Saxena', 'Cofather', 2),
   ('Bhavin', 'Cofather', 3),
   ('Mario Martin', 'External Affairs Minister', 4),

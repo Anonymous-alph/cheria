@@ -75,7 +75,7 @@ INSERT INTO services (slug, name, description) VALUES
 ON CONFLICT (slug) DO NOTHING;
 DELETE FROM ministers;
 INSERT INTO ministers (name, title, sort_order) VALUES
-  ('Charuhas Kantipudi', 'Cofather', 1),
+  ('Charuhas Kantipudi', 'Supreme Leader', 1),
   ('Arjun Saxena', 'Cofather', 2),
   ('Bhavin', 'Cofather', 3),
   ('Mario Martin', 'External Affairs Minister', 4),
@@ -171,8 +171,8 @@ export async function ensureAdmin(sqlClient) {
     given_name: "Charuhas",
     family_name: "Kantipudi",
     dob: "1992-01-01",
-    address: "Office of the Cofathers, Capital of Cheria",
-    note: "Seeded Cofather admin",
+    address: "Office of the Supreme Leader, Capital of Cheria",
+    note: "Seeded Supreme Leader admin",
   });
 }
 

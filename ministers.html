@@ -55,8 +55,26 @@
     <main class="flex-grow pt-28 px-margin-mobile md:px-margin-desktop max-w-7xl mx-auto w-full">
       <div class="mb-lg" data-hero>
         <h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-primary mb-4" data-hero-item data-reveal>Citizenship &amp; Roles</h1>
-        <p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl" data-hero-item data-reveal>Cheria’s cofathers and ministers — the people who hold citizenship and the offices they serve.</p>
+        <p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl" data-hero-item data-reveal>Cheria’s supreme leader, cofathers, and ministers — the people who hold citizenship and the offices they serve.</p>
       </div>
+
+      <section class="mb-xl">
+        <div class="flex items-center gap-4 mb-lg" data-reveal>
+          <div class="h-px bg-outline-variant flex-grow"></div>
+          <h2 class="font-headline-lg text-headline-lg text-primary px-4">Supreme Leader</h2>
+          <div class="h-px bg-outline-variant flex-grow"></div>
+        </div>
+        <div class="grid grid-cols-1 max-w-md mx-auto" data-stagger>
+          <article class="card-lift bg-surface-container-lowest border border-primary-container/50 rounded-xl p-6 flex flex-col items-center text-center" data-reveal style="border-top:4px solid #8B0000">
+            <img src="assets/portraits/charuhas.png" alt="Charuhas Kantipudi, Supreme Leader of Cheria" class="w-24 h-24 rounded-full mb-4 border-2 border-surface object-cover object-top">
+            <span class="font-label-md text-label-md text-secondary mb-1 uppercase tracking-widest">Supreme Leader</span>
+            <h3 class="font-headline-md text-headline-md text-primary mb-1">Charuhas Kantipudi</h3>
+            <p class="font-label-md text-label-md text-on-surface-variant mb-2">(Saint Cherry)</p>
+            <p class="font-body-md text-body-md text-on-surface-variant text-sm">Supreme Leader of Cheria. Sets the kingdom’s direction and civic identity.</p>
+            <button class="mt-4 text-primary font-label-md text-label-md inline-flex items-center gap-1" data-open-modal="profile-charuhas">Profile <span class="material-symbols-outlined text-sm icon-move">arrow_forward</span></button>
+          </article>
+        </div>
+      </section>
 
       <section class="mb-xl">
         <div class="flex items-center gap-4 mb-lg" data-reveal>
@@ -64,14 +82,7 @@
           <h2 class="font-headline-lg text-headline-lg text-primary px-4">Cofathers</h2>
           <div class="h-px bg-outline-variant flex-grow"></div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-gutter" data-stagger>
-          <article class="card-lift bg-surface-container-lowest border border-primary-container/50 rounded-xl p-6 flex flex-col items-center text-center" data-reveal style="border-top:4px solid #8B0000">
-            <div class="w-24 h-24 rounded-full mb-4 border-2 border-surface bg-primary-container text-on-primary-container flex items-center justify-center font-headline-md text-headline-md">CK</div>
-            <span class="font-label-md text-label-md text-secondary mb-1 uppercase tracking-widest">Cofather</span>
-            <h3 class="font-headline-md text-headline-md text-primary mb-2">Charuhas Kantipudi</h3>
-            <p class="font-body-md text-body-md text-on-surface-variant text-sm">Cofounder of Cheria. Sets the kingdom’s founding direction and civic identity.</p>
-            <button class="mt-4 text-primary font-label-md text-label-md inline-flex items-center gap-1" data-open-modal="profile-charuhas">Profile <span class="material-symbols-outlined text-sm icon-move">arrow_forward</span></button>
-          </article>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-gutter max-w-3xl mx-auto" data-stagger>
           <article class="card-lift bg-surface-container-lowest border border-primary-container/50 rounded-xl p-6 flex flex-col items-center text-center" data-reveal style="border-top:4px solid #8B0000">
             <div class="w-24 h-24 rounded-full mb-4 border-2 border-surface bg-primary-container text-on-primary-container flex items-center justify-center font-headline-md text-headline-md">AS</div>
             <span class="font-label-md text-label-md text-secondary mb-1 uppercase tracking-widest">Cofather</span>
@@ -151,8 +162,10 @@
   <div class="modal" id="profile-charuhas">
     <div class="modal-overlay"></div>
     <div class="modal-panel p-8">
-      <h3 class="font-headline-md text-headline-md text-secondary mb-2">Charuhas Kantipudi</h3>
-      <p class="text-on-surface-variant mb-6">Cofather of Cheria. Holds founding citizenship and shares the original compact of the kingdom.</p>
+      <img src="assets/portraits/charuhas.png" alt="Charuhas Kantipudi, Supreme Leader of Cheria" class="w-28 h-28 rounded-full mb-4 border-2 border-primary-container object-cover object-top">
+      <h3 class="font-headline-md text-headline-md text-secondary mb-1">Charuhas Kantipudi</h3>
+      <p class="font-label-md text-label-md text-on-surface-variant mb-4">(Saint Cherry)</p>
+      <p class="text-on-surface-variant mb-6">Supreme Leader of Cheria. Holds the highest office of the kingdom and sets its civic direction.</p>
       <button class="btn btn-ghost py-2 px-5 ml-auto block" data-close-modal>Close</button>
     </div>
   </div>
@@ -192,6 +205,7 @@
   <div class="modal" id="profile-srijip">
     <div class="modal-overlay"></div>
     <div class="modal-panel p-8">
+      <img src="assets/portraits/srijip.png" alt="Srijip, Education Minister of Cheria" class="w-28 h-28 rounded-full mb-4 border-2 border-primary-container object-cover object-top">
       <h3 class="font-headline-md text-headline-md text-secondary mb-2">Srijip</h3>
       <p class="text-on-surface-variant mb-6">Education Minister. Responsible for learning, scholarship, and civic education in Cheria.</p>
       <button class="btn btn-ghost py-2 px-5 ml-auto block" data-close-modal>Close</button>
