@@ -5,6 +5,8 @@ import { neon } from "@neondatabase/serverless";
 import {
   DEFAULT_ADMIN_EMAIL,
   DEFAULT_ADMIN_PASSWORD,
+  DEFAULT_COFATHER_EMAIL,
+  DEFAULT_COFATHER_PASSWORD,
   hashPassword,
   verifyPassword,
 } from "./lib/auth.js";
@@ -115,15 +117,14 @@ export async function ensureSchema(sqlClient) {
   }
 }
 
-export async function ensureAdmin(sqlClient) {
-  const email = (process.env.ADMIN_EMAIL || DEFAULT_ADMIN_EMAIL).trim().toLowerCase();
-  const password = process.env.ADMIN_PASSWORD || DEFAULT_ADMIN_PASSWORD;
+async function upsertAdmin(sqlClient, account) {
+  const email = account.email.trim().toLowerCase();
   const existing = await sqlClient`
     select id, password_hash from citizens where email = ${email}
   `;
   const passwordOk =
-    existing[0]?.password_hash && (await verifyPassword(password, existing[0].password_hash));
-  const password_hash = passwordOk ? existing[0].password_hash : await hashPassword(password);
+    existing[0]?.password_hash && (await verifyPassword(account.password, existing[0].password_hash));
+  const password_hash = passwordOk ? existing[0].password_hash : await hashPassword(account.password);
 
   if (!existing[0]) {
     await sqlClient`
@@ -131,9 +132,9 @@ export async function ensureAdmin(sqlClient) {
         given_name, family_name, dob, region, email, address, terms_accepted,
         password_hash, role, status, review_note, reviewed_at
       ) values (
-        'Shivam', 'Cheria', '1994-07-07', 'central_blossom', ${email},
-        'Ministry of Technology, Capital of Cheria', true,
-        ${password_hash}, 'admin', 'approved', 'Seeded Tech Minister admin', now()
+        ${account.given_name}, ${account.family_name}, ${account.dob}, 'central_blossom', ${email},
+        ${account.address}, true,
+        ${password_hash}, 'admin', 'approved', ${account.note}, now()
       )
     `;
     return;
@@ -143,10 +144,32 @@ export async function ensureAdmin(sqlClient) {
     update citizens
     set role = 'admin',
         status = 'approved',
-        given_name = 'Shivam',
+        given_name = ${account.given_name},
+        family_name = ${account.family_name},
         password_hash = ${password_hash}
     where email = ${email}
   `;
+}
+
+export async function ensureAdmin(sqlClient) {
+  await upsertAdmin(sqlClient, {
+    email: process.env.ADMIN_EMAIL || DEFAULT_ADMIN_EMAIL,
+    password: process.env.ADMIN_PASSWORD || DEFAULT_ADMIN_PASSWORD,
+    given_name: "Shivam",
+    family_name: "Cheria",
+    dob: "1994-07-07",
+    address: "Ministry of Technology, Capital of Cheria",
+    note: "Seeded Tech Minister admin",
+  });
+  await upsertAdmin(sqlClient, {
+    email: process.env.COFATHER_EMAIL || DEFAULT_COFATHER_EMAIL,
+    password: process.env.COFATHER_PASSWORD || DEFAULT_COFATHER_PASSWORD,
+    given_name: "Charuhas",
+    family_name: "Kantipudi",
+    dob: "1992-01-01",
+    address: "Office of the Cofathers, Capital of Cheria",
+    note: "Seeded Cofather admin",
+  });
 }
 
 export async function getReadySql() {
