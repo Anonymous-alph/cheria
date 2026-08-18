@@ -185,8 +185,7 @@ export async function restoreArjunCitizenship(sqlClient) {
         blacklisted_at = null,
         review_note = 'Citizenship restored after accidental rejection.',
         reviewed_at = now()
-    where lower(given_name) = 'arjun'
-      and lower(family_name) = 'saxena'
+    where lower(email) = 'thearjunsaxena1909@gmail.com'
       and coalesce(role, 'citizen') <> 'admin'
   `;
 }
