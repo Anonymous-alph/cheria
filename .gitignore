@@ -1,0 +1,6 @@
+.cursor/mcp.json
+.cursor/stitch.env
+.env
+.env.*
+!.env.example
+node_modules/

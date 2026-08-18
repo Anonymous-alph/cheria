@@ -1,0 +1,244 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Ministers - Kingdom of Cheria</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline": "#837375",
+                        "tertiary-fixed": "#ffdad5",
+                        "tertiary-container": "#ffb9b0",
+                        "on-tertiary-container": "#903830",
+                        "on-tertiary": "#ffffff",
+                        "surface-dim": "#f2d2d5",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed": "#410000",
+                        "secondary-fixed-dim": "#ffb4a8",
+                        "inverse-surface": "#3f2b2e",
+                        "primary-fixed-dim": "#fbb3c1",
+                        "secondary": "#b52619",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary-container": "#ff5c47",
+                        "secondary-fixed": "#ffdad4",
+                        "surface-variant": "#fbdbde",
+                        "primary": "#864e5a",
+                        "surface-container": "#ffe9ea",
+                        "surface-container-highest": "#fbdbde",
+                        "on-tertiary-fixed": "#410001",
+                        "on-primary-fixed-variant": "#6b3743",
+                        "on-primary-container": "#7b4551",
+                        "primary-fixed": "#ffd9df",
+                        "on-error": "#ffffff",
+                        "background": "#fff8f7",
+                        "surface-tint": "#864e5a",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#fff0f1",
+                        "inverse-on-surface": "#ffeced",
+                        "on-secondary-container": "#610000",
+                        "on-tertiary-fixed-variant": "#7e2b23",
+                        "surface-container-high": "#ffe1e4",
+                        "surface-bright": "#fff8f7",
+                        "on-background": "#281719",
+                        "primary-container": "#ffb7c5",
+                        "on-primary-fixed": "#360c19",
+                        "tertiary": "#9d4139",
+                        "inverse-primary": "#fbb3c1",
+                        "on-primary": "#ffffff",
+                        "on-surface": "#281719",
+                        "error": "#ba1a1a",
+                        "surface": "#fff8f7",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed-dim": "#ffb4aa",
+                        "on-surface-variant": "#514345",
+                        "outline-variant": "#d6c2c4",
+                        "on-secondary-fixed-variant": "#920703"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "xl": "80px",
+                        "lg": "48px",
+                        "margin-desktop": "64px",
+                        "md": "24px",
+                        "gutter": "24px",
+                        "base": "8px",
+                        "sm": "12px",
+                        "xs": "4px",
+                        "margin-mobile": "16px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "display-lg-mobile": ["Libre Caslon Text"],
+                        "caption": ["Plus Jakarta Sans"],
+                        "label-md": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Libre Caslon Text"],
+                        "headline-md": ["Libre Caslon Text"],
+                        "display-lg": ["Libre Caslon Text"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "display-lg-mobile": ["40px", {"lineHeight": "48px", "fontWeight": "700"}],
+                        "caption": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "display-lg": ["56px", {"lineHeight": "64px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .petal-shadow {
+            box-shadow: 0 4px 20px rgba(255, 183, 197, 0.3);
+        }
+        .card-header-accent {
+            border-top: 4px solid #8B0000;
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface antialiased flex bg-[#fff8f7]">
+<!-- NavigationDrawer -->
+<nav class="hidden md:block h-full w-80 rounded-r-xl bg-surface-container-low shadow-xl shadow-md fixed left-0 top-0 z-[60] py-base">
+<div class="px-6 py-4 mb-6">
+<h2 class="font-headline-md text-headline-md text-secondary">Government Services</h2>
+</div>
+<ul class="flex flex-col gap-2">
+<li>
+<a class="text-on-surface-variant hover:bg-surface-variant/50 rounded-full mx-2 px-4 py-3 flex items-center gap-4 hover:bg-surface-container-high transition-all duration-200 scale-95 active:scale-90 font-label-md text-label-md cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span>Home</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface-variant hover:bg-surface-variant/50 rounded-full mx-2 px-4 py-3 flex items-center gap-4 hover:bg-surface-container-high transition-all duration-200 scale-95 active:scale-90 font-label-md text-label-md cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="history_edu">history_edu</span>
+<span>About Cheria</span>
+</a>
+</li>
+<li>
+<a class="bg-primary-container text-on-primary-container rounded-full mx-2 px-4 py-3 flex items-center gap-4 hover:bg-surface-container-high transition-all duration-200 scale-95 active:scale-90 font-label-md text-label-md cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span>Ministers</span>
+</a>
+</li>
+<li>
+<a class="text-on-surface-variant hover:bg-surface-variant/50 rounded-full mx-2 px-4 py-3 flex items-center gap-4 hover:bg-surface-container-high transition-all duration-200 scale-95 active:scale-90 font-label-md text-label-md cursor-pointer" href="#">
+<span class="material-symbols-outlined" data-icon="app_registration">app_registration</span>
+<span>Registration</span>
+</a>
+</li>
+</ul>
+</nav>
+<!-- Main Content Area -->
+<div class="flex-1 md:ml-80 flex flex-col min-h-screen">
+<!-- TopAppBar (Mobile Only) -->
+<header class="md:hidden fixed top-0 w-full z-50 border-b border-outline-variant/20 bg-surface/80 backdrop-blur-md flex justify-between items-center px-margin-mobile py-4 bg-surface text-primary">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined cursor-pointer active:opacity-70" data-icon="menu">menu</span>
+</div>
+<h1 class="font-headline-md text-headline-md font-bold text-secondary">Kingdom of Cheria</h1>
+<span class="material-symbols-outlined cursor-pointer active:opacity-70" data-icon="account_balance">account_balance</span>
+</header>
+<main class="flex-1 px-margin-mobile md:px-margin-desktop py-xl mt-16 md:mt-0 max-w-7xl mx-auto w-full">
+<div class="mb-lg">
+<h1 class="font-display-lg text-display-lg text-primary mb-4">Ministers of State</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl">
+                    The distinguished officials appointed to serve the Kingdom of Cheria, guiding our nation with wisdom, integrity, and a deep respect for our heritage.
+                </p>
+</div>
+<!-- Bento Grid Directory -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Prime Minister Card -->
+<div class="col-span-1 md:col-span-2 lg:col-span-3 bg-surface-container-lowest border border-primary-container/50 rounded-xl petal-shadow card-header-accent p-6 flex flex-col md:flex-row gap-8 items-center md:items-start group hover:bg-surface-container-low transition-colors duration-300">
+<div class="w-48 h-48 shrink-0 rounded-full overflow-hidden border-4 border-surface petal-shadow relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A dignified professional portrait of an elder statesman in formal attire. Soft, high-key lighting illuminating a serene face, conveying wisdom and authority. Background is a subtle, out-of-focus bright interior with hints of cherry blossom pink and warm wood tones." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMB37-9FmrFBw1Q4N2tZDE8GHracyTk4rvqvdZaVgNqnzdSySGyLFSib7mqEv6mJuHWl4jNW5dyZZLVcPvU4NyugkGsN9hhOfjrfzMKVBmyFjZvInOphOWA_IhyEbImCK6j-ICT9GH4lvT5Uu-6MXHDqvaPyTy5Wt2V82TIrMNwZgSE0XlYJ1eEtoJVRAxSKwS7mwNQAM7UzbcqF2Xej9fZhcVDqLagWpHFIAU_cxl_BSNpeNiBKJy">
+<div class="absolute inset-0 bg-yellow-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 mix-blend-overlay"></div>
+</div>
+<div class="flex-1 text-center md:text-left space-y-4">
+<div>
+<span class="font-label-md text-label-md text-secondary uppercase tracking-widest">Head of Government</span>
+<h2 class="font-headline-lg text-headline-lg text-primary mt-1">Lord Chancellor Alistair Thorne</h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
+                            Serving as the principal advisor to the Crown, the Lord Chancellor oversees the implementation of royal decrees and maintains the harmonious operation of all state ministries. His enduring commitment to natural heritage ensures Cheria flourishes.
+                        </p>
+<div class="flex gap-4 justify-center md:justify-start pt-2">
+<button class="bg-[#8B0000] text-white font-label-md text-label-md px-6 py-2 rounded-full hover:bg-secondary transition-colors duration-200 petal-shadow">Contact Office</button>
+<button class="border border-[#8B0000] text-[#8B0000] font-label-md text-label-md px-6 py-2 rounded-full hover:bg-surface-container-high transition-colors duration-200">View Directives</button>
+</div>
+</div>
+</div>
+<!-- Minister Card 1 -->
+<div class="bg-surface-container-lowest border border-primary-container/50 rounded-xl petal-shadow card-header-accent p-6 flex flex-col items-center text-center group hover:-translate-y-1 transition-all duration-300">
+<div class="w-32 h-32 rounded-full overflow-hidden mb-4 border-2 border-surface shadow-sm relative">
+<img class="w-full h-full object-cover" data-alt="A professional headshot of a middle-aged woman with a warm, welcoming smile. High-key bright lighting. She is wearing modern, elegant professional attire. The background is a soft, blurred light pink gradient." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDI94D8-8ie8sia6UqJTTZGXh82hinzgnzDM4ikcxiUwJI_1hKPLNI__76uG4ednAofO1-OV5JJ_io9RHiMd5rvTXtinIVvXuwQkG3O5WURMzZ151DPG8TwEhMeWOZ3BJrx2d2IURE1lGVGZILwRuSajPeCrwhQacaVG4F1O0BA1l3pABkAd9W7xp9fr3vTjc_MDf7E7c6438NrPDojae4BgFN4SuarL1WTDzdsWyw5cOqVXTD3dvsn">
+<div class="absolute inset-0 bg-yellow-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 mix-blend-overlay"></div>
+</div>
+<span class="font-label-md text-label-md text-secondary mb-1">Ministry of Heritage</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">Lady Elara Vance</h3>
+<p class="font-body-md text-body-md text-on-surface-variant flex-1 text-sm">
+                        Preserving the cultural traditions and historical archives of the Kingdom.
+                    </p>
+<a class="mt-4 text-primary font-label-md text-label-md hover:text-secondary transition-colors inline-flex items-center gap-1" href="#">
+                        Profile <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<!-- Minister Card 2 -->
+<div class="bg-surface-container-lowest border border-primary-container/50 rounded-xl petal-shadow card-header-accent p-6 flex flex-col items-center text-center group hover:-translate-y-1 transition-all duration-300">
+<div class="w-32 h-32 rounded-full overflow-hidden mb-4 border-2 border-surface shadow-sm relative">
+<img class="w-full h-full object-cover" data-alt="A formal portrait of a serious, sharply dressed man in his forties. The lighting is bright and clean, emphasizing professionalism. Subtle deep cherry wood tones in the out-of-focus background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJ2a05B-wUz4W_XjbKGR9wwQHX-oOyjB-eI818VtZWUMhvipSXlxlzzLy1_VtPey0Ck-kmf4rAD1dw9KRliSdst-kawDt11-HiscGAvaaCoMFAT__ZHT1iSMx-RUtAJxf_lj77AZyjGlWW3P1-OjKGdRLFW1QfbFPUbVutmadftirM7wyt8XpH2RpeJe10QqtvMieYoGNNVtlzV5wSXqSJcM-39BhzP80Ogei6AU9nWdX-G5A99Fja">
+<div class="absolute inset-0 bg-yellow-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 mix-blend-overlay"></div>
+</div>
+<span class="font-label-md text-label-md text-secondary mb-1">Ministry of Commerce</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">Sir Julian Croft</h3>
+<p class="font-body-md text-body-md text-on-surface-variant flex-1 text-sm">
+                        Regulating trade, economic growth, and the prosperity of the Cherian markets.
+                    </p>
+<a class="mt-4 text-primary font-label-md text-label-md hover:text-secondary transition-colors inline-flex items-center gap-1" href="#">
+                        Profile <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<!-- Minister Card 3 -->
+<div class="bg-surface-container-lowest border border-primary-container/50 rounded-xl petal-shadow card-header-accent p-6 flex flex-col items-center text-center group hover:-translate-y-1 transition-all duration-300">
+<div class="w-32 h-32 rounded-full overflow-hidden mb-4 border-2 border-surface shadow-sm relative">
+<img class="w-full h-full object-cover" data-alt="A portrait of a young, dynamic female official. Bright, airy lighting highlights her confident expression. The aesthetic is clean and modern, set against a pristine white background with a hint of natural light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqATM2kI0ffjYxxHYG5PU-SrbpBb0XFQxN8LGWhxRKKhoveegszr6mwD2ASF6WtfxDWp6kirJ7yCOEqJnTxgBYdRk-D0CBwTzU4eQBaXjAPi8dHznMplILRnLbKyC3IESgupaEejHTCjem7Ce9ZkU4V0BUIUH1GG566zBNJkpoOMLO8SRwE5xTDoIgc9kL_jw32Ci11dVVMKsnC2LFlJFxlP1QgTPnP1e-Bofof06hkHI_U3LaUyhr">
+<div class="absolute inset-0 bg-yellow-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 mix-blend-overlay"></div>
+</div>
+<span class="font-label-md text-label-md text-secondary mb-1">Ministry of Ecology</span>
+<h3 class="font-headline-md text-headline-md text-primary mb-2">Dr. Seraphina Lin</h3>
+<p class="font-body-md text-body-md text-on-surface-variant flex-1 text-sm">
+                        Stewarding the natural reserves and delicate blossom ecosystems of our land.
+                    </p>
+<a class="mt-4 text-primary font-label-md text-label-md hover:text-secondary transition-colors inline-flex items-center gap-1" href="#">
+                        Profile <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-xl border-t-4 border-secondary bg-surface-container-highest flex flex-col md:flex-row justify-between items-center gap-gutter px-margin-mobile md:px-margin-desktop py-lg max-w-7xl mx-auto bg-surface-container-highest text-secondary">
+<div class="font-headline-md text-headline-md text-secondary">Kingdom of Cheria</div>
+<div class="font-body-md text-body-md text-on-surface-variant text-center">© 2024 The Official Portal of the Kingdom of Cheria. All rights reserved.</div>
+<ul class="flex flex-wrap gap-4 justify-center">
+<li><a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors cursor-pointer" href="#">Privacy Policy</a></li>
+<li><a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors cursor-pointer" href="#">Terms of Service</a></li>
+<li><a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors cursor-pointer" href="#">Contact Us</a></li>
+<li><a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors cursor-pointer" href="#">Press Office</a></li>
+</ul>
+</footer>
+</div>
+</body></html>

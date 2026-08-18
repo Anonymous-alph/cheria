@@ -1,0 +1,19 @@
+{
+  "name": "cheria",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Kingdom of Cheria official portal",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.1.0",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1"
+  }
+}

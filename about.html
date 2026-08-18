@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Cheria — Kingdom of Cheria</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script src="assets/js/tailwind-theme.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/motion.css">
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col antialiased">
+  <div class="scroll-progress"></div>
+  <header class="site-header">
+    <div class="header-inner flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 max-w-7xl mx-auto">
+      <a href="index.html" class="brand-mark flex items-center gap-sm no-underline text-inherit">
+        <img class="brand-flag" src="assets/brand/cheria-flag.svg" width="28" height="18" alt="" aria-hidden="true">
+        <span class="font-headline-md text-headline-md font-bold text-secondary">Kingdom of Cheria</span>
+      </a>
+      <nav class="hidden md:flex gap-md items-center">
+        <a class="nav-link font-label-md text-label-md" href="index.html">Home</a>
+        <a class="nav-link font-label-md text-label-md is-active" href="about.html">About Cheria</a>
+        <a class="nav-link font-label-md text-label-md" href="ministers.html">Ministers</a>
+        <a class="nav-link font-label-md text-label-md" href="service-registration.html">Registration</a>
+        <a class="nav-link font-label-md text-label-md" href="portal.html">Portal</a>
+      </nav>
+      <button class="md:hidden text-primary" id="mobile-menu-btn" aria-label="Open menu" aria-expanded="false">
+        <span class="menu-icon"><span></span><span></span><span></span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="drawer" id="mobile-drawer">
+    <div class="drawer-overlay"></div>
+    <aside class="drawer-panel py-base">
+      <div class="px-6 py-4 border-b border-outline-variant/20 mb-4">
+        <h2 class="font-headline-md text-headline-md text-secondary">Government Services</h2>
+      </div>
+      <nav class="flex-1 flex flex-col gap-2">
+        <a class="drawer-item text-on-surface-variant rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="index.html"><span class="material-symbols-outlined">home</span>Home</a>
+        <a class="drawer-item bg-primary-container text-on-primary-container rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="about.html"><span class="material-symbols-outlined">history_edu</span>About Cheria</a>
+        <a class="drawer-item text-on-surface-variant rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="ministers.html"><span class="material-symbols-outlined">group</span>Ministers</a>
+        <a class="drawer-item text-on-surface-variant rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="service-registration.html"><span class="material-symbols-outlined">app_registration</span>Registration</a>
+        <a class="drawer-item text-on-surface-variant rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="portal.html"><span class="material-symbols-outlined">dashboard</span>Portal</a>
+      </nav>
+    </aside>
+  </div>
+
+  <div class="page-shell flex flex-col min-h-screen">
+    <main class="flex-grow pt-24 pb-xl">
+      <section class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop mb-xl" data-hero>
+        <div class="relative w-full h-[60vh] min-h-[400px] rounded-xl overflow-hidden mb-lg place-photo" style="box-shadow: var(--petal-shadow)">
+          <img class="hero-media absolute inset-0 w-full h-full object-cover" data-hero-item data-reveal="scale" data-parallax="14" src="assets/brand/location-gate.png" alt="Entrance gate of Cheria, white pillars and a dark wood beam before forested hills">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/15 flex items-end p-margin-mobile md:p-margin-desktop">
+            <div class="max-w-2xl text-on-primary">
+              <p class="font-label-md text-label-md tracking-[0.22em] uppercase text-blossom mb-xs" data-hero-item data-reveal>The Seat of the Realm</p>
+              <h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg mb-sm text-white drop-shadow-md" data-hero-item data-reveal>The Heart of the Blossoms</h1>
+              <p class="font-body-lg text-body-lg text-white/90" data-hero-item data-reveal>A kingdom deeply rooted in heritage, blooming with natural wonder.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop mb-xl" aria-labelledby="location-heading">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-center" data-stagger>
+          <div class="col-span-1 md:col-span-6" data-reveal>
+            <figure class="place-photo rounded-xl m-0 h-full min-h-[280px]">
+              <img src="assets/brand/location-gate.png" alt="The gate of Cheria, opening onto a forested drive and the hills beyond">
+            </figure>
+          </div>
+          <div class="col-span-1 md:col-span-6" data-reveal="right">
+            <p class="font-label-md text-label-md tracking-[0.18em] uppercase text-primary mb-xs">The Place</p>
+            <h2 id="location-heading" class="font-headline-lg text-headline-lg text-secondary mb-md">The Gate of Cheria</h2>
+            <p class="font-body-md text-body-md text-on-surface-variant mb-4">This is the threshold of the realm: white stone, dark wood, and the hills behind. The drive leads inward through groves and gardens—the living campus of Cheria, where court, study, and land meet.</p>
+            <p class="font-body-md text-body-md text-on-surface-variant">Visitors pass under the gable to the seat of the kingdom. The forested ridge beyond is not a backdrop; it is the country itself.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop mb-xl" aria-labelledby="national-flag-heading">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-center" data-stagger>
+          <div class="col-span-1 md:col-span-7" data-reveal>
+            <div class="flag-honor-frame rounded-xl">
+              <figure class="flag-honor rounded-lg m-0">
+                <img src="assets/brand/cheria-flag.svg" width="900" height="600" alt="National flag of Cheria: a wood-maroon field charged with a five-petaled blossom of pale pink and ceremonial gold">
+              </figure>
+            </div>
+          </div>
+          <div class="col-span-1 md:col-span-5" data-reveal="right">
+            <p class="font-label-md text-label-md tracking-[0.18em] uppercase text-primary mb-xs">Royal Standard</p>
+            <h2 id="national-flag-heading" class="font-headline-lg text-headline-lg text-secondary mb-md">The National Flag</h2>
+            <p class="font-body-md text-body-md text-on-surface-variant mb-4">The flag of Cheria bears a field of deep wood-maroon, charged at the heart with a five-petaled blossom. Pale pink petals recall the groves in spring; a disc of ceremonial gold holds the center, as the court holds the realm.</p>
+            <p class="font-body-md text-body-md text-on-surface-variant mb-lg">It is raised at the gate, above the ministries, and across the groves during the Grand Blossom Festival.</p>
+            <a class="btn btn-wood font-label-md text-label-md px-lg py-sm" href="assets/brand/cheria-flag.pdf">View official PDF</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop mb-xl" aria-labelledby="heritage-heading">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-gutter" data-stagger>
+          <div class="card-lift col-span-1 md:col-span-5 bg-surface-container-lowest rounded-xl p-lg border border-primary-container/20 relative overflow-hidden" data-reveal style="border-top:4px solid #8B0000">
+            <p class="font-label-md text-label-md tracking-[0.18em] uppercase text-primary mb-xs">Land Register</p>
+            <h2 id="heritage-heading" class="font-headline-lg text-headline-lg text-primary mb-md">Our Heritage</h2>
+            <p class="font-body-md text-body-md text-on-surface-variant mb-4">The Kingdom of Cheria is more than a name; it is a living register of field, grove, water, and settlement. Our ancestors understood that the land itself—ephemeral in season, enduring in return—is a reflection of life.</p>
+            <p class="font-body-md text-body-md text-on-surface-variant">The survey of Cheeranakuppe and the Kanakapura way records the parcels of the realm: farms in gold, groves in green, water in blue, and the roads that bind them. This is the documentary heart of Cheria.</p>
+          </div>
+          <div class="col-span-1 md:col-span-7" data-reveal="right">
+            <figure class="map-document rounded-xl m-0">
+              <img src="assets/brand/heritage-map.png" alt="Cadastral land-use map of Cheeranakuppe and Kanakapura, the documented land of Cheria">
+              <figcaption class="font-body-md text-on-surface-variant text-sm mt-3 px-1">Official land-use survey — Cheeranakuppe, Kanakapura, and neighbouring hamlets.</figcaption>
+            </figure>
+          </div>
+          <div class="col-span-1 md:col-span-12 bg-surface-container-low rounded-xl p-lg border border-primary-container/20 mt-gutter" data-reveal>
+            <h2 class="font-headline-lg text-headline-lg text-secondary mb-md text-center">The Grand Blossom Festival</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-lg items-center">
+              <div class="flag-honor-frame rounded-xl max-w-md mx-auto md:mx-0">
+                <figure class="flag-honor rounded-lg m-0">
+                  <img src="assets/brand/cheria-flag.svg" width="900" height="600" alt="National flag of Cheria, raised for the Grand Blossom Festival">
+                </figure>
+              </div>
+              <div>
+                <p class="font-body-md text-body-md text-on-surface-variant mb-4" data-reveal>Every spring, as the groves of the realm turn a sea of pink, we host the Grand Blossom Festival. It is a time of renewal, reflection, and joyous celebration at the gate and across the land.</p>
+                <ul class="space-y-sm mb-lg">
+                  <li class="flex items-center gap-xs text-on-surface-variant font-body-md" data-reveal><span class="material-symbols-outlined text-primary text-sm">local_florist</span>Nighttime illumination of the Sacred Groves</li>
+                  <li class="flex items-center gap-xs text-on-surface-variant font-body-md" data-reveal><span class="material-symbols-outlined text-primary text-sm">local_florist</span>Traditional petal-tea ceremonies</li>
+                  <li class="flex items-center gap-xs text-on-surface-variant font-body-md" data-reveal><span class="material-symbols-outlined text-primary text-sm">local_florist</span>Heritage crafts and wood-carving exhibitions</li>
+                </ul>
+                <button class="btn btn-primary font-label-md text-label-md px-lg py-sm" data-open-modal="festival-modal">Learn More</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="w-full mt-xl border-t-4 border-secondary bg-surface-container-highest" data-reveal>
+      <div class="flex flex-col md:flex-row justify-between items-center gap-gutter px-margin-mobile md:px-margin-desktop py-lg max-w-7xl mx-auto">
+        <a href="index.html" class="no-underline text-inherit"><span class="font-headline-md text-headline-md text-secondary">Kingdom of Cheria</span></a>
+        <div class="flex flex-wrap justify-center gap-md font-label-md text-label-md">
+          <a class="text-on-surface-variant hover:text-primary" href="about.html">Privacy Policy</a>
+          <a class="text-on-surface-variant hover:text-primary" href="about.html">Terms of Service</a>
+          <a class="text-on-surface-variant hover:text-primary" href="ministers.html">Contact Us</a>
+          <a class="text-on-surface-variant hover:text-primary" href="portal.html">Press Office</a>
+        </div>
+        <div class="font-body-md text-body-md text-on-surface-variant">© 2024 The Official Portal of the Kingdom of Cheria.</div>
+      </div>
+    </footer>
+  </div>
+
+  <div class="modal" id="festival-modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-panel p-8">
+      <h3 class="font-headline-md text-headline-md text-secondary mb-3">Grand Blossom Festival</h3>
+      <p class="text-on-surface-variant mb-6">Held each spring across the Sacred Groves. Registration for ceremonies and lantern walks opens through the Citizen Portal.</p>
+      <div class="flex justify-end gap-3">
+        <button class="btn btn-ghost py-2 px-5" data-close-modal>Close</button>
+        <a class="btn btn-wood py-2 px-5" href="service-registration.html">Register</a>
+      </div>
+    </div>
+  </div>
+  <script src="assets/js/cheria.js"></script>
+</body>
+</html>

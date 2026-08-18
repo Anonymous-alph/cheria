@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" role="img" aria-label="National flag of the Kingdom of Cheria">
+  <rect width="900" height="600" fill="#5c1023"/>
+  <g transform="translate(450 300)">
+    <g fill="#f6c9d6" stroke="#d98fa8" stroke-width="1.2">
+      <g id="petal">
+        <path d="M0 0C28.35-13.5 31.5-49.5 17.325-76.5C11.025-85.5 6.75-88.2 0-76.5C-6.75-88.2-11.025-85.5-17.325-76.5C-31.5-49.5-28.35-13.5 0 0Z"/>
+        <g fill="none" stroke="#d98fa8" stroke-width=".9">
+          <path d="M0-6V-71.1"/>
+          <path d="M0-31.5L11.088-42.3"/>
+          <path d="M0-31.5L-11.088-42.3"/>
+          <path d="M0-49.5L9.009-60.3"/>
+          <path d="M0-49.5L-9.009-60.3"/>
+          <path d="M0-64.8L6.237-75.6"/>
+          <path d="M0-64.8L-6.237-75.6"/>
+        </g>
+      </g>
+      <use href="#petal" transform="rotate(72)"/>
+      <use href="#petal" transform="rotate(144)"/>
+      <use href="#petal" transform="rotate(216)"/>
+      <use href="#petal" transform="rotate(288)"/>
+    </g>
+    <g stroke="#d9a441" stroke-width="1.8">
+      <path d="M0-9V-24"/>
+      <path d="M0-9V-24" transform="rotate(36)"/>
+      <path d="M0-9V-24" transform="rotate(72)"/>
+      <path d="M0-9V-24" transform="rotate(108)"/>
+      <path d="M0-9V-24" transform="rotate(144)"/>
+      <path d="M0-9V-24" transform="rotate(180)"/>
+      <path d="M0-9V-24" transform="rotate(216)"/>
+      <path d="M0-9V-24" transform="rotate(252)"/>
+      <path d="M0-9V-24" transform="rotate(288)"/>
+      <path d="M0-9V-24" transform="rotate(324)"/>
+    </g>
+    <circle r="16.5" fill="#d9a441"/>
+  </g>
+</svg>

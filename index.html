@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kingdom of Cheria — Official Portal</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script src="assets/js/tailwind-theme.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/motion.css">
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col antialiased">
+  <div class="scroll-progress"></div>
+  <header class="site-header">
+    <div class="header-inner flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 max-w-7xl mx-auto">
+      <a href="index.html" class="brand-mark flex items-center gap-sm no-underline text-inherit">
+        <span class="material-symbols-outlined text-primary">account_balance</span>
+        <span class="font-headline-md text-headline-md font-bold text-secondary">Kingdom of Cheria</span>
+      </a>
+      <nav class="hidden md:flex gap-md items-center">
+        <a class="nav-link font-label-md text-label-md is-active" href="index.html">Home</a>
+        <a class="nav-link font-label-md text-label-md" href="about.html">About Cheria</a>
+        <a class="nav-link font-label-md text-label-md" href="ministers.html">Ministers</a>
+        <a class="nav-link font-label-md text-label-md" href="service-registration.html">Registration</a>
+        <a class="nav-link font-label-md text-label-md" href="portal.html">Portal</a>
+      </nav>
+      <button class="md:hidden text-primary" id="mobile-menu-btn" aria-label="Open menu" aria-expanded="false">
+        <span class="menu-icon"><span></span><span></span><span></span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="drawer" id="mobile-drawer">
+    <div class="drawer-overlay"></div>
+    <aside class="drawer-panel py-base">
+      <div class="px-6 py-4 border-b border-outline-variant/20 mb-4">
+        <h2 class="font-headline-md text-headline-md text-secondary">Government Services</h2>
+      </div>
+      <nav class="flex-1 flex flex-col gap-2">
+        <a class="drawer-item bg-primary-container text-on-primary-container rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="index.html"><span class="material-symbols-outlined">home</span>Home</a>
+        <a class="drawer-item text-on-surface-variant rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="about.html"><span class="material-symbols-outlined">history_edu</span>About Cheria</a>
+        <a class="drawer-item text-on-surface-variant rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="ministers.html"><span class="material-symbols-outlined">group</span>Ministers</a>
+        <a class="drawer-item text-on-surface-variant rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="service-registration.html"><span class="material-symbols-outlined">app_registration</span>Registration</a>
+        <a class="drawer-item text-on-surface-variant rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="portal.html"><span class="material-symbols-outlined">dashboard</span>Portal</a>
+      </nav>
+    </aside>
+  </div>
+
+  <div class="page-shell flex flex-col min-h-screen">
+    <main class="flex-grow">
+      <section class="relative w-full min-h-[86vh] flex items-center justify-center px-margin-mobile md:px-margin-desktop py-xl overflow-hidden" data-hero>
+        <div class="absolute inset-0 z-0 overflow-hidden">
+          <div class="hero-media bg-cover bg-center w-full h-[115%] -mt-[6%] opacity-80" data-hero-item data-reveal="scale" data-parallax="18" style="background-image: url('assets/brand/location-gate.png')" role="img" aria-label="Entrance gate of Cheria"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" data-hero-item data-reveal></div>
+        </div>
+        <div class="relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center gap-lg pt-20">
+          <h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-secondary drop-shadow-sm" data-hero-item data-reveal>Welcome to Cheria</h1>
+          <p class="font-body-lg text-body-lg text-on-surface max-w-2xl bg-surface/60 backdrop-blur-sm p-6 rounded-xl border border-primary-container/50" data-hero-item data-reveal>
+            Experience the harmony of heritage and progress. Discover government services, cultural insights, and the natural beauty of our sun-drenched Kingdom.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-md" data-hero-item data-reveal>
+            <a href="service-registration.html" class="btn btn-primary font-label-md text-label-md py-3 px-8">Explore Services</a>
+            <a href="portal.html" class="btn btn-ghost font-label-md text-label-md py-3 px-8">Citizen Portal</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-xl">
+        <div class="flex items-center gap-4 mb-lg" data-reveal>
+          <div class="h-px bg-outline-variant flex-grow"></div>
+          <h2 class="font-headline-lg text-headline-lg text-primary px-4">Essential Services</h2>
+          <div class="h-px bg-outline-variant flex-grow"></div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-gutter" data-stagger>
+          <a href="service-registration.html" class="card-lift md:col-span-2 md:row-span-2 bg-surface rounded-xl border border-primary-container/20 petal-shadow wood-accent-border p-8 flex flex-col justify-between group no-underline text-inherit" data-reveal style="border-top:4px solid #8B0000">
+            <div>
+              <div class="card-icon w-12 h-12 bg-primary-container rounded-full flex items-center justify-center mb-6">
+                <span class="material-symbols-outlined text-on-primary-container icon-move">description</span>
+              </div>
+              <h3 class="font-headline-md text-headline-md text-on-surface mb-4">Official Documentation</h3>
+              <p class="font-body-md text-body-md text-on-surface-variant mb-6">Access birth certificates, national identity cards, and passport applications through our streamlined digital registry.</p>
+            </div>
+            <ul class="space-y-2">
+              <li class="flex items-center gap-2 font-body-md text-body-md text-on-surface"><span class="material-symbols-outlined text-primary text-[16px]">local_florist</span>Apply for ID</li>
+              <li class="flex items-center gap-2 font-body-md text-body-md text-on-surface"><span class="material-symbols-outlined text-primary text-[16px]">local_florist</span>Renew Passport</li>
+            </ul>
+          </a>
+          <div class="card-lift bg-surface rounded-xl border border-primary-container/20 p-6" data-reveal data-open-modal="tax-modal" style="border-top:4px solid #8B0000">
+            <span class="material-symbols-outlined text-secondary text-3xl mb-4 icon-move" data-tooltip="Treasury desk">account_balance</span>
+            <h3 class="font-label-md text-label-md text-on-surface mb-2">Treasury &amp; Taxes</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant text-sm">Manage declarations and payments.</p>
+          </div>
+          <div class="card-lift bg-surface rounded-xl border border-primary-container/20 p-6" data-reveal data-open-modal="health-modal" style="border-top:4px solid #8B0000">
+            <span class="material-symbols-outlined text-secondary text-3xl mb-4 icon-move" data-tooltip="Health services">health_and_safety</span>
+            <h3 class="font-label-md text-label-md text-on-surface mb-2">Health Ministry</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant text-sm">Healthcare initiatives and clinics.</p>
+          </div>
+          <a href="about.html" class="card-lift md:col-span-2 bg-surface rounded-xl border border-primary-container/20 p-6 flex items-center gap-6 no-underline text-inherit" data-reveal="right" style="border-top:4px solid #8B0000">
+            <div class="w-16 h-16 rounded-full overflow-hidden shrink-0">
+              <img class="w-full h-full object-cover" alt="National flag of Cheria" src="assets/brand/cheria-flag.svg">
+            </div>
+            <div>
+              <h3 class="font-headline-md text-headline-md text-on-surface mb-2 text-xl">Cultural Heritage</h3>
+              <p class="font-body-md text-body-md text-on-surface-variant">Discover the rich history and upcoming floral festivals in the capital.</p>
+            </div>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="w-full mt-xl border-t-4 border-secondary bg-surface-container-highest" data-reveal>
+      <div class="flex flex-col md:flex-row justify-between items-center gap-gutter px-margin-mobile md:px-margin-desktop py-lg max-w-7xl mx-auto">
+        <div class="flex flex-col items-center md:items-start gap-4">
+          <a href="index.html" class="no-underline text-inherit"><span class="font-headline-md text-headline-md text-secondary">Kingdom of Cheria</span></a>
+          <span class="font-body-md text-body-md text-on-surface-variant">© 2024 The Official Portal of the Kingdom of Cheria. All rights reserved.</span>
+        </div>
+        <div class="flex flex-wrap justify-center gap-md">
+          <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary" href="about.html">Privacy Policy</a>
+          <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary" href="about.html">Terms of Service</a>
+          <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary" href="ministers.html">Contact Us</a>
+          <a class="font-label-md text-label-md text-on-surface-variant hover:text-primary" href="portal.html">Press Office</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <div class="modal" id="tax-modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-panel p-8">
+      <h3 class="font-headline-md text-headline-md text-secondary mb-3">Treasury &amp; Taxes</h3>
+      <p class="text-on-surface-variant mb-6">Declarations, payments, and seasonal levies are handled through the Citizen Portal with a calm, guided flow.</p>
+      <div class="flex justify-end gap-3">
+        <button class="btn btn-ghost py-2 px-5" data-close-modal>Close</button>
+        <a class="btn btn-wood py-2 px-5" href="portal.html">Open Portal</a>
+      </div>
+    </div>
+  </div>
+  <div class="modal" id="health-modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-panel p-8">
+      <h3 class="font-headline-md text-headline-md text-secondary mb-3">Health Ministry</h3>
+      <p class="text-on-surface-variant mb-6">Clinic appointments, wellness notices, and blossom-season health guidance for every region.</p>
+      <div class="flex justify-end gap-3">
+        <button class="btn btn-ghost py-2 px-5" data-close-modal>Close</button>
+        <a class="btn btn-wood py-2 px-5" href="portal.html">View Services</a>
+      </div>
+    </div>
+  </div>
+  <script src="assets/js/cheria.js"></script>
+</body>
+</html>

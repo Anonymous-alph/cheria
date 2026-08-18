@@ -1,0 +1,346 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Kingdom of Cheria - Official Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&amp;family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "outline": "#837375",
+                      "tertiary-fixed": "#ffdad5",
+                      "tertiary-container": "#ffb9b0",
+                      "on-tertiary-container": "#903830",
+                      "on-tertiary": "#ffffff",
+                      "surface-dim": "#f2d2d5",
+                      "on-error-container": "#93000a",
+                      "on-secondary-fixed": "#410000",
+                      "secondary-fixed-dim": "#ffb4a8",
+                      "inverse-surface": "#3f2b2e",
+                      "primary-fixed-dim": "#fbb3c1",
+                      "secondary": "#b52619",
+                      "surface-container-lowest": "#ffffff",
+                      "secondary-container": "#ff5c47",
+                      "secondary-fixed": "#ffdad4",
+                      "surface-variant": "#fbdbde",
+                      "primary": "#864e5a",
+                      "surface-container": "#ffe9ea",
+                      "surface-container-highest": "#fbdbde",
+                      "on-tertiary-fixed": "#410001",
+                      "on-primary-fixed-variant": "#6b3743",
+                      "on-primary-container": "#7b4551",
+                      "primary-fixed": "#ffd9df",
+                      "on-error": "#ffffff",
+                      "background": "#fff8f7",
+                      "surface-tint": "#864e5a",
+                      "error-container": "#ffdad6",
+                      "surface-container-low": "#fff0f1",
+                      "inverse-on-surface": "#ffeced",
+                      "on-secondary-container": "#610000",
+                      "on-tertiary-fixed-variant": "#7e2b23",
+                      "surface-container-high": "#ffe1e4",
+                      "surface-bright": "#fff8f7",
+                      "on-background": "#281719",
+                      "primary-container": "#ffb7c5",
+                      "on-primary-fixed": "#360c19",
+                      "tertiary": "#9d4139",
+                      "inverse-primary": "#fbb3c1",
+                      "on-primary": "#ffffff",
+                      "on-surface": "#281719",
+                      "error": "#ba1a1a",
+                      "surface": "#fff8f7",
+                      "on-secondary": "#ffffff",
+                      "tertiary-fixed-dim": "#ffb4aa",
+                      "on-surface-variant": "#514345",
+                      "outline-variant": "#d6c2c4",
+                      "on-secondary-fixed-variant": "#920703"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "xl": "80px",
+                      "lg": "48px",
+                      "margin-desktop": "64px",
+                      "md": "24px",
+                      "gutter": "24px",
+                      "base": "8px",
+                      "sm": "12px",
+                      "xs": "4px",
+                      "margin-mobile": "16px"
+              },
+              "fontFamily": {
+                      "body-lg": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "body-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "display-lg-mobile": [
+                              "Libre Caslon Text"
+                      ],
+                      "caption": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "label-md": [
+                              "Plus Jakarta Sans"
+                      ],
+                      "headline-lg": [
+                              "Libre Caslon Text"
+                      ],
+                      "headline-md": [
+                              "Libre Caslon Text"
+                      ],
+                      "display-lg": [
+                              "Libre Caslon Text"
+                      ]
+              },
+              "fontSize": {
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg-mobile": [
+                              "40px",
+                              {
+                                      "lineHeight": "48px",
+                                      "fontWeight": "700"
+                              }
+                      ],
+                      "caption": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "fontWeight": "500"
+                              }
+                      ],
+                      "label-md": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "display-lg": [
+                              "56px",
+                              {
+                                      "lineHeight": "64px",
+                                      "letterSpacing": "-0.02em",
+                                      "fontWeight": "700"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+      </script>
+<style>
+        .petal-shadow {
+            box-shadow: 0 4px 20px rgba(255, 183, 197, 0.3);
+        }
+        .wood-accent-border {
+            border-top: 4px solid #8B0000;
+        }
+      </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col pt-20">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 border-b border-outline-variant/20 bg-surface/80 backdrop-blur-md">
+<div class="flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 max-w-7xl mx-auto">
+<div class="flex items-center gap-sm">
+<span class="material-symbols-outlined text-primary dark:text-primary-fixed-dim" data-icon="account_balance">account_balance</span>
+<span class="font-headline-md text-headline-md font-bold text-secondary dark:text-secondary-fixed">Kingdom of Cheria</span>
+</div>
+<!-- Desktop Nav -->
+<nav class="hidden md:flex gap-md items-center">
+<a class="text-secondary dark:text-secondary-fixed-dim font-bold border-b-2 border-secondary font-label-md text-label-md pb-1 cursor-pointer active:opacity-70" href="#">Home</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors duration-300 font-label-md text-label-md pb-1 cursor-pointer active:opacity-70" href="#">About Cheria</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors duration-300 font-label-md text-label-md pb-1 cursor-pointer active:opacity-70" href="#">Ministers</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-primary dark:hover:text-primary-fixed transition-colors duration-300 font-label-md text-label-md pb-1 cursor-pointer active:opacity-70" href="#">Registration</a>
+</nav>
+<button class="md:hidden text-primary dark:text-primary-fixed-dim cursor-pointer active:opacity-70" id="mobile-menu-btn">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+</div>
+</header>
+<!-- NavigationDrawer (Mobile) -->
+<div class="fixed inset-0 z-[60] hidden" id="mobile-drawer">
+<div class="absolute inset-0 bg-on-background/20 backdrop-blur-sm" id="drawer-overlay"></div>
+<aside class="fixed left-0 top-0 h-full z-[60] py-base bg-surface-container-low shadow-xl shadow-md h-full w-80 rounded-r-xl transform transition-transform -translate-x-full duration-300 flex flex-col" id="drawer-panel">
+<div class="px-6 py-4 border-b border-outline-variant/20 mb-4">
+<h2 class="font-headline-md text-headline-md text-secondary">Government Services</h2>
+</div>
+<nav class="flex-1 flex flex-col gap-2">
+<a class="bg-primary-container text-on-primary-container rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+                    Home
+                </a>
+<a class="text-on-surface-variant hover:bg-surface-variant/50 rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md hover:bg-surface-container-high transition-all duration-200 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="history_edu">history_edu</span>
+                    About Cheria
+                </a>
+<a class="text-on-surface-variant hover:bg-surface-variant/50 rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md hover:bg-surface-container-high transition-all duration-200 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+                    Ministers
+                </a>
+<a class="text-on-surface-variant hover:bg-surface-variant/50 rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md hover:bg-surface-container-high transition-all duration-200 scale-95 active:scale-90" href="#">
+<span class="material-symbols-outlined" data-icon="app_registration">app_registration</span>
+                    Registration
+                </a>
+</nav>
+</aside>
+</div>
+<!-- Main Content -->
+<main class="flex-grow">
+<!-- Hero Section -->
+<section class="relative w-full min-h-[80vh] flex items-center justify-center px-margin-mobile md:px-margin-desktop py-xl overflow-hidden">
+<div class="absolute inset-0 z-0">
+<div class="bg-cover bg-center w-full h-full opacity-80" data-alt="A breathtaking, wide-angle landscape shot of a grand traditional courtyard bathed in bright, warm morning sunlight. The scene is framed by magnificent cherry blossom trees in full bloom, their light pink petals gently catching the light. The architecture features deep, rich cherry wood columns and traditional tiled roofs, creating a beautiful natural contrast against the airy pink and white floral canopy. The overall aesthetic is Modern Organic, welcoming, and sun-drenched." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBr0wxV6QGM3LC-BBETW7FGE8ZP1US01X78EOaWmNonpEg4qdy2L7-YrbK1P8vqyYjsHJ7lY-gtPnuLH64kr87C_t16DI-vDqv_0M42lWtOrxseT5xHhHqboQN9gsuGZizyRwheS2dmgST1Bq_grAg8z5wreWsQPwH6zp4liNOZswMsrLETWz0m4AcD_W3ggBC26Zgkc9fMP0nOJMsoUl9vKn151YTUNX2NV2SaCkfNYyU5uKazo8fZ')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent"></div>
+</div>
+<div class="relative z-10 max-w-4xl mx-auto text-center flex flex-col items-center gap-lg">
+<h1 class="font-display-lg-mobile md:font-display-lg text-display-lg-mobile md:text-display-lg text-secondary drop-shadow-sm">Welcome to Cheria</h1>
+<p class="font-body-lg text-body-lg text-on-surface max-w-2xl bg-surface/60 backdrop-blur-sm p-6 rounded-xl border border-primary-container/50">
+                    Experience the harmony of heritage and progress. Discover government services, cultural insights, and the natural beauty of our sun-drenched Kingdom.
+                </p>
+<div class="flex flex-col sm:flex-row gap-md">
+<button class="bg-[#FFB7C5] text-white font-label-md text-label-md py-3 px-8 rounded-full hover:bg-primary-fixed-dim transition-colors petal-shadow">
+                        Explore Services
+                    </button>
+<button class="bg-transparent border-2 border-[#8B0000] text-[#8B0000] font-label-md text-label-md py-3 px-8 rounded-full hover:bg-surface-variant transition-colors">
+                        Citizen Portal
+                    </button>
+</div>
+</div>
+</section>
+<!-- Services Bento Grid -->
+<section class="max-w-7xl mx-auto px-margin-mobile md:px-margin-desktop py-xl">
+<div class="flex items-center gap-4 mb-lg">
+<div class="h-px bg-outline-variant flex-grow"></div>
+<h2 class="font-headline-lg text-headline-lg text-primary px-4">Essential Services</h2>
+<div class="h-px bg-outline-variant flex-grow"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-gutter">
+<!-- Large Card -->
+<div class="md:col-span-2 md:row-span-2 bg-surface rounded-xl border border-primary-container/20 petal-shadow wood-accent-border p-8 flex flex-col justify-between group cursor-pointer hover:bg-surface-container-low transition-colors">
+<div>
+<div class="w-12 h-12 bg-primary-container rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-on-primary-container" data-icon="description">description</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-4">Official Documentation</h3>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6">
+                            Access birth certificates, national identity cards, and passport applications through our streamlined digital registry.
+                        </p>
+</div>
+<ul class="space-y-2">
+<li class="flex items-center gap-2 font-body-md text-body-md text-on-surface">
+<span class="material-symbols-outlined text-primary text-[16px]" data-icon="local_florist">local_florist</span>
+                            Apply for ID
+                        </li>
+<li class="flex items-center gap-2 font-body-md text-body-md text-on-surface">
+<span class="material-symbols-outlined text-primary text-[16px]" data-icon="local_florist">local_florist</span>
+                            Renew Passport
+                        </li>
+</ul>
+</div>
+<!-- Standard Cards -->
+<div class="bg-surface rounded-xl border border-primary-container/20 petal-shadow wood-accent-border p-6 flex flex-col justify-between hover:bg-surface-container-low transition-colors cursor-pointer group">
+<div>
+<span class="material-symbols-outlined text-secondary text-3xl mb-4 group-hover:scale-110 transition-transform" data-icon="account_balance">account_balance</span>
+<h3 class="font-label-md text-label-md text-on-surface mb-2">Treasury &amp; Taxes</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Manage declarations and payments.</p>
+</div>
+</div>
+<div class="bg-surface rounded-xl border border-primary-container/20 petal-shadow wood-accent-border p-6 flex flex-col justify-between hover:bg-surface-container-low transition-colors cursor-pointer group">
+<div>
+<span class="material-symbols-outlined text-secondary text-3xl mb-4 group-hover:scale-110 transition-transform" data-icon="health_and_safety">health_and_safety</span>
+<h3 class="font-label-md text-label-md text-on-surface mb-2">Health Ministry</h3>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Healthcare initiatives and clinics.</p>
+</div>
+</div>
+<!-- Wide Card -->
+<div class="md:col-span-2 bg-surface rounded-xl border border-primary-container/20 petal-shadow wood-accent-border p-6 flex items-center gap-6 hover:bg-surface-container-low transition-colors cursor-pointer group">
+<div class="w-16 h-16 rounded-full overflow-hidden shrink-0">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="A close-up photograph of a delicate cherry blossom branch with vibrant pink petals and fresh green leaves, set against a soft, out-of-focus background of a traditional wooden building structure. The lighting is warm and natural, emphasizing the ephemeral beauty of the Modern Organic style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgrg32o8GZPvnaeW3M8DiEDZi7UIXOtSIk6_tDmrJ75vSbxi1gIMSPnJZXqy94R-I3vyPnRq4qFPJbpuKRQ8uG0kwTnbbgdXorp2Oe0kGiowh7RbyVZ2yimnKNQ5srRlmPFHfFf8zXvjEgMhFwN7Wtw9liUMx83_Dksjh2WjME2G9Xfp8IGsgYI91dAsVzbz1X2kVtGNbCA6CeGQ9YwFMUurJ5buV5lDSHdmEnsznRdaKbqV01qucc">
+</div>
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface mb-2 text-xl">Cultural Heritage</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Discover the rich history and upcoming floral festivals in the capital.</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full mt-xl border-t-4 border-secondary bg-surface-container-highest">
+<div class="flex flex-col md:flex-row justify-between items-center gap-gutter px-margin-mobile md:px-margin-desktop py-lg max-w-7xl mx-auto">
+<div class="flex flex-col items-center md:items-start gap-4">
+<span class="font-headline-md text-headline-md text-secondary">Kingdom of Cheria</span>
+<span class="font-body-md text-body-md text-on-surface-variant">© 2024 The Official Portal of the Kingdom of Cheria. All rights reserved.</span>
+</div>
+<div class="flex flex-wrap justify-center gap-md">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors cursor-pointer" href="#">Privacy Policy</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors cursor-pointer" href="#">Terms of Service</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors cursor-pointer" href="#">Contact Us</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors cursor-pointer" href="#">Press Office</a>
+</div>
+</div>
+</footer>
+<script>
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const drawer = document.getElementById('mobile-drawer');
+        const drawerPanel = document.getElementById('drawer-panel');
+        const drawerOverlay = document.getElementById('drawer-overlay');
+
+        function toggleDrawer() {
+            if (drawer.classList.contains('hidden')) {
+                drawer.classList.remove('hidden');
+                // Small delay to allow display:block to apply before animating transform
+                setTimeout(() => {
+                    drawerPanel.classList.remove('-translate-x-full');
+                }, 10);
+            } else {
+                drawerPanel.classList.add('-translate-x-full');
+                setTimeout(() => {
+                    drawer.classList.add('hidden');
+                }, 300); // match transition duration
+            }
+        }
+
+        menuBtn.addEventListener('click', toggleDrawer);
+        drawerOverlay.addEventListener('click', toggleDrawer);
+    </script>
+</body></html>

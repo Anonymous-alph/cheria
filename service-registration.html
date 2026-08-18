@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration — Kingdom of Cheria</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script src="assets/js/tailwind-theme.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/motion.css">
+</head>
+<body class="bg-background text-on-background min-h-screen flex flex-col font-body-md antialiased">
+  <div class="scroll-progress"></div>
+  <header class="site-header">
+    <div class="header-inner flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 max-w-7xl mx-auto">
+      <a href="index.html" class="brand-mark flex items-center gap-sm no-underline text-inherit">
+        <span class="material-symbols-outlined text-primary">account_balance</span>
+        <span class="font-headline-md text-headline-md font-bold text-secondary">Kingdom of Cheria</span>
+      </a>
+      <nav class="hidden md:flex gap-md items-center">
+        <a class="nav-link font-label-md text-label-md" href="index.html">Home</a>
+        <a class="nav-link font-label-md text-label-md" href="about.html">About Cheria</a>
+        <a class="nav-link font-label-md text-label-md" href="ministers.html">Ministers</a>
+        <a class="nav-link font-label-md text-label-md is-active" href="service-registration.html">Registration</a>
+        <a class="nav-link font-label-md text-label-md" href="portal.html">Portal</a>
+      </nav>
+      <button class="md:hidden text-primary" id="mobile-menu-btn" aria-label="Open menu" aria-expanded="false">
+        <span class="menu-icon"><span></span><span></span><span></span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="drawer" id="mobile-drawer">
+    <div class="drawer-overlay"></div>
+    <aside class="drawer-panel py-base">
+      <div class="px-6 py-4 border-b border-outline-variant/20 mb-4">
+        <h2 class="font-headline-md text-headline-md text-secondary">Government Services</h2>
+      </div>
+      <nav class="flex-1 flex flex-col gap-2">
+        <a class="drawer-item text-on-surface-variant rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="index.html"><span class="material-symbols-outlined">home</span>Home</a>
+        <a class="drawer-item text-on-surface-variant rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="about.html"><span class="material-symbols-outlined">history_edu</span>About Cheria</a>
+        <a class="drawer-item text-on-surface-variant rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="ministers.html"><span class="material-symbols-outlined">group</span>Ministers</a>
+        <a class="drawer-item bg-primary-container text-on-primary-container rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="service-registration.html"><span class="material-symbols-outlined">app_registration</span>Registration</a>
+        <a class="drawer-item text-on-surface-variant rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="portal.html"><span class="material-symbols-outlined">dashboard</span>Portal</a>
+      </nav>
+    </aside>
+  </div>
+
+  <div class="page-shell flex flex-col min-h-screen">
+    <main class="flex-grow pt-[120px] pb-xl px-margin-mobile md:px-margin-desktop flex items-center justify-center relative overflow-hidden">
+      <div class="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full bg-primary-container blur-[100px] opacity-30 pointer-events-none" data-parallax="20"></div>
+      <div class="w-full max-w-3xl relative z-10" data-hero>
+        <div class="text-center mb-lg">
+          <h1 class="font-headline-lg text-headline-lg md:font-display-lg md:text-display-lg text-secondary mb-base" data-hero-item data-reveal>Citizen Registration</h1>
+          <p class="text-on-surface-variant max-w-xl mx-auto" data-hero-item data-reveal>Join the welcoming community of Cheria. Register your details below to access official government services and resources.</p>
+        </div>
+        <div class="bg-surface-container-lowest rounded-xl border border-outline-variant/20 p-margin-mobile md:p-margin-desktop relative overflow-hidden" data-hero-item data-reveal style="border-top:4px solid #8B0000; box-shadow: var(--petal-shadow)">
+          <form action="#" class="space-y-gutter relative z-10" method="POST" data-register-form>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-md">
+              <div class="space-y-base">
+                <label class="block font-label-md text-label-md text-on-surface" for="given_name">Given Name</label>
+                <input class="w-full rounded-lg form-input-cheria px-4 py-3" id="given_name" name="given_name" placeholder="E.g. Elara" type="text" required>
+              </div>
+              <div class="space-y-base">
+                <label class="block font-label-md text-label-md text-on-surface" for="family_name">Family Name</label>
+                <input class="w-full rounded-lg form-input-cheria px-4 py-3" id="family_name" name="family_name" placeholder="E.g. Vance" type="text" required>
+              </div>
+              <div class="space-y-base">
+                <label class="block font-label-md text-label-md text-on-surface" for="dob">Date of Birth</label>
+                <input class="w-full rounded-lg form-input-cheria px-4 py-3" id="dob" name="dob" type="date" required>
+              </div>
+              <div class="space-y-base relative">
+                <label class="block font-label-md text-label-md text-on-surface" for="region">Home Region</label>
+                <select class="w-full rounded-lg form-input-cheria px-4 py-3 appearance-none cursor-pointer" id="region" name="region" required>
+                  <option disabled selected value="">Select your region</option>
+                  <option value="central_blossom">Central Blossom District</option>
+                  <option value="eastern_woods">Eastern Redwood Expanse</option>
+                  <option value="western_petals">Western Petal Shores</option>
+                  <option value="northern_peaks">Northern Serene Peaks</option>
+                </select>
+                <span class="material-symbols-outlined pointer-events-none absolute right-3 bottom-3 text-[20px] text-on-surface-variant">expand_more</span>
+              </div>
+            </div>
+            <div class="pt-sm border-t border-outline-variant/30 space-y-md">
+              <h2 class="font-headline-md text-headline-md text-primary mb-sm">Contact Information</h2>
+              <div class="space-y-base">
+                <label class="block font-label-md text-label-md text-on-surface" for="email">Digital Address (Email)</label>
+                <input class="w-full rounded-lg form-input-cheria px-4 py-3" id="email" name="email" placeholder="citizen@cheria.gov.ch" type="email" required>
+              </div>
+              <div class="space-y-base">
+                <label class="block font-label-md text-label-md text-on-surface" for="address">Residential Address</label>
+                <textarea class="w-full rounded-lg form-input-cheria px-4 py-3 resize-none" id="address" name="address" placeholder="123 Cherry Lane, Central Blossom" rows="3"></textarea>
+              </div>
+            </div>
+            <div class="pt-md space-y-lg">
+              <div class="flex items-start gap-sm">
+                <input class="checkbox-cheria mt-0.5 cursor-pointer" id="terms" name="terms" type="checkbox" required>
+                <label class="font-body-md text-body-md text-on-surface-variant cursor-pointer" for="terms">
+                  I pledge allegiance to the welcoming principles of Cheria and agree to the <a class="text-secondary font-bold hover:underline" href="about.html">Terms of Service</a>.
+                </label>
+              </div>
+              <div class="flex flex-col sm:flex-row justify-end gap-4">
+                <a class="btn btn-ghost px-6 py-3 font-label-md text-label-md" href="index.html">Cancel</a>
+                <button class="btn btn-wood px-8 py-3 font-label-md text-label-md" type="submit">
+                  <span>Register</span>
+                  <span class="material-symbols-outlined text-[20px] icon-move">how_to_reg</span>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <footer class="w-full mt-xl border-t-4 border-secondary bg-surface-container-highest" data-reveal>
+      <div class="flex flex-col md:flex-row justify-between items-center gap-gutter px-margin-mobile md:px-margin-desktop py-lg max-w-7xl mx-auto">
+        <div>
+          <span class="font-headline-md text-headline-md text-secondary block mb-2">Kingdom of Cheria</span>
+          <p class="text-on-surface-variant">© 2024 The Official Portal of the Kingdom of Cheria.</p>
+        </div>
+        <nav class="flex flex-wrap justify-center gap-x-6 gap-y-2">
+          <a class="text-on-surface-variant font-label-md text-label-md hover:text-primary" href="about.html">Privacy Policy</a>
+          <a class="text-on-surface-variant font-label-md text-label-md hover:text-primary" href="about.html">Terms of Service</a>
+          <a class="text-on-surface-variant font-label-md text-label-md hover:text-primary" href="ministers.html">Contact Us</a>
+        </nav>
+      </div>
+    </footer>
+  </div>
+  <script src="assets/js/cheria.js"></script>
+</body>
+</html>
