@@ -4,7 +4,12 @@
   "installCommand": "npm install",
   "functions": {
     "api/**/*.js": {
-      "includeFiles": "schema.sql"
+      "includeFiles": "{schema.sql,templates/admin.html}"
     }
-  }
+  },
+  "routes": [
+    { "src": "^/admin(\\.html)?/?$", "dest": "/api/admin-page" },
+    { "src": "^/(templates|lib|node_modules)(/.*)?$", "status": 404 },
+    { "src": "^/(server\\.js|db\\.js|schema\\.sql|package\\.json|package-lock\\.json)$", "status": 404 }
+  ]
 }

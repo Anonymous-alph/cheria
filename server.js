@@ -4,6 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import {
   handleAdminApplications,
+  handleAdminPage,
   handleAdminReview,
   handleApplication,
   handleHealth,
@@ -19,7 +20,17 @@ const PORT = Number(process.env.PORT) || 3000;
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(__dirname));
+
+app.use((req, res, next) => {
+  const blocked =
+    /^\/(templates|lib|node_modules)(\/|$)/i.test(req.path) ||
+    /^\/(server\.js|db\.js|schema\.sql|package\.json|package-lock\.json)$/i.test(req.path);
+  if (blocked) {
+    res.status(404).end();
+    return;
+  }
+  next();
+});
 
 app.get("/api/health", handleHealth);
 app.post("/api/register", handleRegister);
@@ -31,6 +42,9 @@ app.get("/api/admin/applications", handleAdminApplications);
 app.get("/api/admin-applications", handleAdminApplications);
 app.post("/api/admin/review", handleAdminReview);
 app.post("/api/admin-review", handleAdminReview);
+app.get(["/admin.html", "/admin"], handleAdminPage);
+
+app.use(express.static(__dirname));
 
 if (!process.env.VERCEL) {
   app.listen(PORT, () => {
