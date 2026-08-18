@@ -23,6 +23,7 @@
       <nav class="hidden md:flex gap-md items-center">
         <a class="nav-link font-label-md text-label-md" href="index.html">Home</a>
         <a class="nav-link font-label-md text-label-md" href="ministers.html">Ministers</a>
+        <a class="nav-link font-label-md text-label-md" href="citizens.html">Citizens</a>
         <a class="nav-link font-label-md text-label-md is-active" href="admin.html">Review</a>
         <button class="nav-link font-label-md text-label-md bg-transparent border-0 cursor-pointer" type="button" data-logout>Sign out</button>
       </nav>
@@ -40,6 +41,8 @@
       </div>
       <nav class="flex-1 flex flex-col gap-2">
         <a class="drawer-item text-on-surface-variant rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="index.html"><span class="material-symbols-outlined">home</span>Home</a>
+        <a class="drawer-item text-on-surface-variant rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="ministers.html"><span class="material-symbols-outlined">group</span>Ministers</a>
+        <a class="drawer-item text-on-surface-variant rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="citizens.html"><span class="material-symbols-outlined">groups</span>Citizens</a>
         <a class="drawer-item bg-primary-container text-on-primary-container rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="admin.html"><span class="material-symbols-outlined">policy</span>Review</a>
         <button class="drawer-item text-on-surface-variant rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md bg-transparent border-0 text-left cursor-pointer" type="button" data-logout><span class="material-symbols-outlined">logout</span>Sign out</button>
       </nav>
@@ -56,6 +59,13 @@
       <div class="mb-xl">
         <div class="space-y-gutter" data-applications data-stagger></div>
       </div>
+
+      <section class="mt-xl pt-lg border-t border-outline-variant/20" data-hero>
+        <p class="font-label-md text-label-md text-secondary uppercase tracking-widest mb-2">Roll of the realm</p>
+        <h2 class="font-headline-lg text-headline-lg text-secondary mb-2">Citizens of Cheria</h2>
+        <p class="text-on-surface-variant max-w-2xl mb-lg">Everyone whose citizenship has been granted. This list is separate from pending applications and the blacklist.</p>
+        <div class="space-y-gutter" data-citizens></div>
+      </section>
 
       <section class="mt-xl pt-lg border-t border-outline-variant/20" data-hero>
         <p class="font-label-md text-label-md text-secondary uppercase tracking-widest mb-2">Sanctions</p>

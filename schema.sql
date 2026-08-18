@@ -73,6 +73,7 @@ INSERT INTO ministers (name, title, sort_order) VALUES
   ('Arjun Saxena', 'Cofather', 2),
   ('Bhavin', 'Cofather', 3),
   ('Mario Martin', 'External Affairs Minister', 4),
-  ('Srijip', 'Education Minister', 5),
-  ('Shreekrishna', 'Content Creator Minister', 6),
-  ('Shivam', 'Tech Minister', 7);
+  ('Nishant Jain', 'Internal Affairs Minister', 5),
+  ('Srijip', 'Education Minister', 6),
+  ('Shreekrishna', 'Content Creator Minister', 7),
+  ('Shivam', 'Tech Minister', 8);

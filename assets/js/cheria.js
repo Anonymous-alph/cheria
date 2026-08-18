@@ -707,6 +707,7 @@
         toast(action === "approve" ? "Citizenship granted." : "Application rejected.");
         await load();
         await loadBlacklist();
+        await loadCitizens();
       } catch {
         toast("Could not reach the registry.");
       } finally {
@@ -758,6 +759,40 @@
       }
     };
 
+    const loadCitizens = () => {
+      const box = document.querySelector("[data-citizens]");
+      if (!box) return Promise.resolve();
+      return api("/api/admin-citizens")
+        .then(async (res) => ({ res, payload: await readJson(res) }))
+        .then(({ res, payload }) => {
+          if (!res.ok || !payload.ok) {
+            box.innerHTML = `<p class="text-on-surface-variant">${escapeHtml(payload.error || "Could not load citizens.")}</p>`;
+            return;
+          }
+          const citizens = payload.citizens || [];
+          if (!citizens.length) {
+            box.innerHTML = '<p class="text-on-surface-variant">No citizenships have been granted yet.</p>';
+            return;
+          }
+          box.innerHTML = citizens
+            .map((person) => {
+              const region = REGIONS[person.region] || person.region || "Cheria";
+              return `
+                <article class="card-lift bg-surface-container-lowest rounded-xl p-6 border border-primary-container/30" data-reveal style="border-top:4px solid #8B0000">
+                  <p class="font-label-md text-label-md text-secondary uppercase tracking-widest mb-1">Citizen</p>
+                  <h3 class="font-headline-md text-headline-md text-primary">${escapeHtml(person.given_name)} ${escapeHtml(person.family_name)}</h3>
+                  <p class="text-on-surface-variant mt-1">${escapeHtml(person.email)}</p>
+                  <p class="text-on-surface-variant mt-2">${escapeHtml(region)}</p>
+                </article>`;
+            })
+            .join("");
+          initReveal();
+        })
+        .catch(() => {
+          box.innerHTML = '<p class="text-on-surface-variant">Could not load citizens.</p>';
+        });
+    };
+
     const loadBlacklist = () => {
       if (!blacklistBox) return Promise.resolve();
       return api("/api/admin-blacklist")
@@ -789,6 +824,7 @@
       toast(successMessage);
       await load();
       await loadBlacklist();
+      await loadCitizens();
       return true;
     };
 
@@ -861,7 +897,43 @@
       }
       load();
       loadBlacklist();
+      loadCitizens();
     });
+  }
+
+  function initCitizens() {
+    const list = document.querySelector("[data-public-citizens]");
+    if (!list) return;
+    api("/api/citizens")
+      .then(async (res) => ({ res, payload: await readJson(res) }))
+      .then(({ res, payload }) => {
+        if (!res.ok || !payload.ok) {
+          list.innerHTML = `<p class="text-on-surface-variant">${escapeHtml(payload.error || "Could not load the citizen roll.")}</p>`;
+          return;
+        }
+        const citizens = payload.citizens || [];
+        if (!citizens.length) {
+          list.innerHTML = '<p class="text-on-surface-variant md:col-span-3">No citizenships have been granted yet.</p>';
+          return;
+        }
+        list.innerHTML = citizens
+          .map((person) => {
+            const region = REGIONS[person.region] || person.region || "Cheria";
+            const initials = `${(person.given_name || "C").slice(0, 1)}${(person.family_name || "").slice(0, 1)}`.toUpperCase();
+            return `
+              <article class="card-lift bg-surface-container-lowest border border-primary-container/50 rounded-xl p-6" data-reveal style="border-top:4px solid #8B0000">
+                <div class="w-14 h-14 rounded-full mb-4 bg-primary-container text-on-primary-container flex items-center justify-center font-headline-md">${escapeHtml(initials)}</div>
+                <p class="font-label-md text-label-md text-secondary uppercase tracking-widest mb-1">Citizen</p>
+                <h2 class="font-headline-md text-headline-md text-primary">${escapeHtml(person.given_name)} ${escapeHtml(person.family_name)}</h2>
+                <p class="text-on-surface-variant mt-2">${escapeHtml(region)}</p>
+              </article>`;
+          })
+          .join("");
+        initReveal();
+      })
+      .catch(() => {
+        list.innerHTML = '<p class="text-on-surface-variant">Could not load the citizen roll.</p>';
+      });
   }
 
   function initTooltips() {
@@ -902,6 +974,7 @@
   initLogin();
   initPortal();
   initAdmin();
+  initCitizens();
   bindLogout();
   initLeaveSiteLogout();
   initTooltips();

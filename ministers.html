@@ -22,6 +22,7 @@
         <a class="nav-link font-label-md text-label-md" href="index.html">Home</a>
         <a class="nav-link font-label-md text-label-md" href="about.html">About Cheria</a>
         <a class="nav-link font-label-md text-label-md is-active" href="ministers.html">Ministers</a>
+        <a class="nav-link font-label-md text-label-md" href="citizens.html">Citizens</a>
         <a class="nav-link font-label-md text-label-md" href="service-registration.html">Registration</a>
         <a class="nav-link font-label-md text-label-md" href="login.html">Sign in</a>
         <a class="nav-link font-label-md text-label-md" href="portal.html">Portal</a>
@@ -42,6 +43,7 @@
         <a class="drawer-item text-on-surface-variant rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="index.html"><span class="material-symbols-outlined">home</span>Home</a>
         <a class="drawer-item text-on-surface-variant rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="about.html"><span class="material-symbols-outlined">history_edu</span>About Cheria</a>
         <a class="drawer-item bg-primary-container text-on-primary-container rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="ministers.html"><span class="material-symbols-outlined">group</span>Ministers</a>
+        <a class="drawer-item text-on-surface-variant rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="citizens.html"><span class="material-symbols-outlined">groups</span>Citizens</a>
         <a class="drawer-item text-on-surface-variant rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="service-registration.html"><span class="material-symbols-outlined">app_registration</span>Registration</a>
         <a class="drawer-item text-on-surface-variant rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="login.html"><span class="material-symbols-outlined">login</span>Sign in</a>
         <a class="drawer-item text-on-surface-variant rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="portal.html"><span class="material-symbols-outlined">dashboard</span>Portal</a>
@@ -93,13 +95,20 @@
           <h2 class="font-headline-lg text-headline-lg text-primary px-4">Ministers</h2>
           <div class="h-px bg-outline-variant flex-grow"></div>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter" data-stagger>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter" data-stagger>
           <article class="card-lift bg-surface-container-lowest border border-primary-container/50 rounded-xl p-6 flex flex-col items-center text-center" data-reveal style="border-top:4px solid #8B0000">
             <div class="w-24 h-24 rounded-full mb-4 border-2 border-surface bg-surface-container text-secondary flex items-center justify-center font-headline-md text-headline-md">MM</div>
             <span class="font-label-md text-label-md text-secondary mb-1">External Affairs</span>
             <h3 class="font-headline-md text-headline-md text-primary mb-2">Mario Martin</h3>
             <p class="font-body-md text-body-md text-on-surface-variant flex-1 text-sm">External Affairs Minister. Represents Cheria beyond the kingdom and tends relations with friends of the realm.</p>
             <button class="mt-4 text-primary font-label-md text-label-md inline-flex items-center gap-1" data-open-modal="profile-mario">Profile <span class="material-symbols-outlined text-sm icon-move">arrow_forward</span></button>
+          </article>
+          <article class="card-lift bg-surface-container-lowest border border-primary-container/50 rounded-xl p-6 flex flex-col items-center text-center" data-reveal style="border-top:4px solid #8B0000">
+            <div class="w-24 h-24 rounded-full mb-4 border-2 border-surface bg-surface-container text-secondary flex items-center justify-center font-headline-md text-headline-md">NJ</div>
+            <span class="font-label-md text-label-md text-secondary mb-1">Internal Affairs</span>
+            <h3 class="font-headline-md text-headline-md text-primary mb-2">Nishant Jain</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant flex-1 text-sm">Internal Affairs Minister. Keeps civic order, domestic offices, and the inner working of the kingdom in good standing.</p>
+            <button class="mt-4 text-primary font-label-md text-label-md inline-flex items-center gap-1" data-open-modal="profile-nishant">Profile <span class="material-symbols-outlined text-sm icon-move">arrow_forward</span></button>
           </article>
           <article class="card-lift bg-surface-container-lowest border border-primary-container/50 rounded-xl p-6 flex flex-col items-center text-center" data-reveal style="border-top:4px solid #8B0000">
             <div class="w-24 h-24 rounded-full mb-4 border-2 border-surface bg-surface-container text-secondary flex items-center justify-center font-headline-md text-headline-md">SJ</div>
@@ -168,6 +177,14 @@
     <div class="modal-panel p-8">
       <h3 class="font-headline-md text-headline-md text-secondary mb-2">Mario Martin</h3>
       <p class="text-on-surface-variant mb-6">External Affairs Minister. Speaks for Cheria abroad and keeps the kingdom’s friendships in order.</p>
+      <button class="btn btn-ghost py-2 px-5 ml-auto block" data-close-modal>Close</button>
+    </div>
+  </div>
+  <div class="modal" id="profile-nishant">
+    <div class="modal-overlay"></div>
+    <div class="modal-panel p-8">
+      <h3 class="font-headline-md text-headline-md text-secondary mb-2">Nishant Jain</h3>
+      <p class="text-on-surface-variant mb-6">Internal Affairs Minister. Oversees domestic administration, civic order, and the inner offices of Cheria.</p>
       <button class="btn btn-ghost py-2 px-5 ml-auto block" data-close-modal>Close</button>
     </div>
   </div>

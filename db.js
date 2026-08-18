@@ -79,9 +79,10 @@ INSERT INTO ministers (name, title, sort_order) VALUES
   ('Arjun Saxena', 'Cofather', 2),
   ('Bhavin', 'Cofather', 3),
   ('Mario Martin', 'External Affairs Minister', 4),
-  ('Srijip', 'Education Minister', 5),
-  ('Shreekrishna', 'Content Creator Minister', 6),
-  ('Shivam', 'Tech Minister', 7);
+  ('Nishant Jain', 'Internal Affairs Minister', 5),
+  ('Srijip', 'Education Minister', 6),
+  ('Shreekrishna', 'Content Creator Minister', 7),
+  ('Shivam', 'Tech Minister', 8);
 `;
 
 let sql;
@@ -175,12 +176,29 @@ export async function ensureAdmin(sqlClient) {
   });
 }
 
+export async function restoreArjunCitizenship(sqlClient) {
+  await sqlClient`
+    update citizens
+    set status = 'approved',
+        blacklisted = false,
+        blacklist_note = '',
+        blacklisted_at = null,
+        review_note = 'Citizenship restored after accidental rejection.',
+        reviewed_at = now()
+    where lower(given_name) = 'arjun'
+      and lower(family_name) = 'saxena'
+      and coalesce(role, 'citizen') <> 'admin'
+  `;
+}
+
 export async function getReadySql() {
   if (!getDatabaseUrl()) {
     throw new Error("DATABASE_URL is not set.");
   }
   sql ??= createSql();
-  schemaPromise ??= ensureSchema(sql).then(() => ensureAdmin(sql));
+  schemaPromise ??= ensureSchema(sql)
+    .then(() => ensureAdmin(sql))
+    .then(() => restoreArjunCitizenship(sql));
   await schemaPromise;
   return sql;
 }

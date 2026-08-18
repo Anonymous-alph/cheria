@@ -6,6 +6,7 @@ import {
   handleAdminApplications,
   handleAdminBlacklistGet,
   handleAdminBlacklistUpdate,
+  handleAdminCitizens,
   handleAdminPage,
   handleAdminReview,
   handleApplication,
@@ -13,6 +14,7 @@ import {
   handleLogin,
   handleLogout,
   handleMe,
+  handlePublicCitizens,
   handleRegister,
 } from "./lib/handlers.js";
 
@@ -46,6 +48,8 @@ app.post("/api/admin/review", handleAdminReview);
 app.post("/api/admin-review", handleAdminReview);
 app.get("/api/admin-blacklist", handleAdminBlacklistGet);
 app.post("/api/admin-blacklist", handleAdminBlacklistUpdate);
+app.get("/api/citizens", handlePublicCitizens);
+app.get("/api/admin-citizens", handleAdminCitizens);
 app.get(["/admin.html", "/admin"], handleAdminPage);
 
 app.use(express.static(__dirname));
