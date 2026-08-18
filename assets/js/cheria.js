@@ -224,6 +224,8 @@
     });
   }
 
+  const REAUTH_KEY = "cheria_reauth";
+
   function getToken() {
     return sessionStorage.getItem("cheria_jwt") || "";
   }
@@ -232,6 +234,32 @@
     if (token) sessionStorage.setItem("cheria_jwt", token);
     else sessionStorage.removeItem("cheria_jwt");
     localStorage.removeItem("cheria_jwt");
+  }
+
+  function lockAccount() {
+    sessionStorage.setItem(REAUTH_KEY, "1");
+    setToken("");
+  }
+
+  function accountLocked() {
+    return sessionStorage.getItem(REAUTH_KEY) === "1";
+  }
+
+  function clearAccountLock() {
+    sessionStorage.removeItem(REAUTH_KEY);
+  }
+
+  function isGatedAccountPage() {
+    return Boolean(
+      document.getElementById("portal-workspace") || document.querySelector("[data-applications]")
+    );
+  }
+
+  function isBackForwardNav(event) {
+    if (event?.persisted) return true;
+    const entry = performance.getEntriesByType?.("navigation")?.[0];
+    if (entry?.type === "back_forward") return true;
+    return performance.navigation?.type === 2;
   }
 
   function authHeaders() {
@@ -259,9 +287,10 @@
 
   let stayOnSite = false;
 
-  function goInternal(href) {
+  function goInternal(href, mode = "assign") {
     stayOnSite = true;
-    window.location.assign(href);
+    if (mode === "replace") window.location.replace(href);
+    else window.location.assign(href);
   }
 
   function logoutQuietly() {
@@ -273,21 +302,38 @@
     }
   }
 
+  async function forceLogin() {
+    stayOnSite = true;
+    lockAccount();
+    try {
+      await fetch("/api/logout", {
+        method: "POST",
+        credentials: "include",
+        cache: "no-store",
+        keepalive: true,
+      });
+    } catch {
+      logoutQuietly();
+    }
+    window.location.replace("login.html");
+  }
+
   async function signOut(redirect = "login.html") {
     stayOnSite = true;
-    setToken("");
+    lockAccount();
     await api("/api/logout", { method: "POST" }).catch(() => {});
     window.location.replace(redirect);
   }
 
   function routeAfterAuth(payload) {
+    clearAccountLock();
     if (payload.token) setToken(payload.token);
     if (payload.citizen?.role === "admin") {
-      goInternal("admin.html");
+      goInternal("admin.html", "replace");
       return;
     }
     const next = new URLSearchParams(window.location.search).get("next");
-    goInternal(next && /\.html$/i.test(next) ? next : "portal.html");
+    goInternal(next && /\.html$/i.test(next) ? next : "portal.html", "replace");
   }
 
   function initLeaveSiteLogout() {
@@ -306,6 +352,10 @@
       true
     );
 
+    if (isGatedAccountPage()) {
+      window.addEventListener("unload", () => {});
+    }
+
     window.addEventListener("pagehide", () => {
       if (stayOnSite) {
         stayOnSite = false;
@@ -315,19 +365,21 @@
     });
 
     window.addEventListener("pageshow", (event) => {
-      const gated = Boolean(
-        document.getElementById("portal-workspace") || document.querySelector("[data-applications]")
-      );
-      if (!gated) return;
-      if (event.persisted) {
-        restoreSession().then(({ res, payload }) => {
-          if (!res.ok || !payload.citizen) {
-            stayOnSite = true;
-            window.location.replace("login.html");
-          }
-        });
+      if (isBackForwardNav(event)) {
+        if (isGatedAccountPage() || accountLocked()) {
+          forceLogin();
+          return;
+        }
+        if (document.querySelector("[data-login-form]")) {
+          lockAccount();
+          logoutQuietly();
+        }
       }
     });
+
+    if (isGatedAccountPage() && (isBackForwardNav() || accountLocked())) {
+      forceLogin();
+    }
   }
 
   const REGIONS = {
@@ -421,6 +473,10 @@
   }
 
   function restoreSession() {
+    if (accountLocked() || (isGatedAccountPage() && isBackForwardNav())) {
+      setToken("");
+      return Promise.resolve({ res: { ok: false, status: 401 }, payload: {} });
+    }
     return api("/api/me")
       .then(async (res) => ({ res, payload: await readJson(res) }))
       .then(({ res, payload }) => {
@@ -515,11 +571,15 @@
     const barred = document.getElementById("portal-barred");
     const workspace = document.getElementById("portal-workspace");
     if (!application || !pending || !rejected || !workspace) return;
+    if (isBackForwardNav() || accountLocked()) {
+      forceLogin();
+      return;
+    }
 
     restoreSession().then(({ res, payload }) => {
         if (!res.ok || !payload.ok || !payload.citizen) {
           if (res.status === 401) {
-            goInternal("login.html?next=portal.html");
+            goInternal("login.html?next=portal.html", "replace");
           } else {
             toast("Could not open your portal.");
           }
@@ -527,7 +587,7 @@
         }
         const citizen = payload.citizen;
         if (citizen.role === "admin") {
-          goInternal("admin.html");
+          goInternal("admin.html", "replace");
           return;
         }
         fillCitizen(citizen);
@@ -609,6 +669,10 @@
   function initAdmin() {
     const list = document.querySelector("[data-applications]");
     if (!list) return;
+    if (isBackForwardNav() || accountLocked()) {
+      forceLogin();
+      return;
+    }
 
     const rank = (status) => {
       if (status === "pending") return 0;
@@ -665,12 +729,12 @@
         .then(async (res) => ({ res, payload: await readJson(res) }))
         .then(({ res, payload }) => {
           if (res.status === 401) {
-            goInternal("login.html?next=admin.html");
+            goInternal("login.html?next=admin.html", "replace");
             return;
           }
           if (res.status === 403) {
             toast(payload.error || "Admin access only.");
-            goInternal("portal.html");
+            goInternal("portal.html", "replace");
             return;
           }
           if (!res.ok || !payload.ok) {
@@ -892,12 +956,12 @@
 
     restoreSession().then(({ res, payload }) => {
       if (res.status === 401 || !payload.citizen) {
-        goInternal("login.html?next=admin.html");
+        goInternal("login.html?next=admin.html", "replace");
         return;
       }
       if (payload.citizen.role !== "admin") {
         toast("Admin access only.");
-        goInternal("portal.html");
+        goInternal("portal.html", "replace");
         return;
       }
       load();
@@ -977,13 +1041,18 @@
   initSearch();
   initForm();
   initLogin();
+  bindLogout();
+  initLeaveSiteLogout();
   initPortal();
   initAdmin();
   initCitizens();
-  bindLogout();
-  initLeaveSiteLogout();
   initTooltips();
-  if (!document.getElementById("portal-workspace") && !document.querySelector("[data-applications]")) {
+  if (
+    !isGatedAccountPage() &&
+    !accountLocked() &&
+    !isBackForwardNav() &&
+    !document.querySelector("[data-login-form]")
+  ) {
     restoreSession();
   }
 })();
