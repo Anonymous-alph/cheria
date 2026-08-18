@@ -28,7 +28,9 @@ app.get("/api/me", handleMe);
 app.post("/api/logout", handleLogout);
 app.post("/api/application", handleApplication);
 app.get("/api/admin/applications", handleAdminApplications);
+app.get("/api/admin-applications", handleAdminApplications);
 app.post("/api/admin/review", handleAdminReview);
+app.post("/api/admin-review", handleAdminReview);
 
 if (!process.env.VERCEL) {
   app.listen(PORT, () => {

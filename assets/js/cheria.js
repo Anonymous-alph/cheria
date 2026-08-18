@@ -225,17 +225,13 @@
   }
 
   function getToken() {
-    return localStorage.getItem("cheria_jwt") || sessionStorage.getItem("cheria_jwt") || "";
+    return sessionStorage.getItem("cheria_jwt") || "";
   }
 
   function setToken(token) {
-    if (token) {
-      localStorage.setItem("cheria_jwt", token);
-      sessionStorage.setItem("cheria_jwt", token);
-    } else {
-      localStorage.removeItem("cheria_jwt");
-      sessionStorage.removeItem("cheria_jwt");
-    }
+    if (token) sessionStorage.setItem("cheria_jwt", token);
+    else sessionStorage.removeItem("cheria_jwt");
+    localStorage.removeItem("cheria_jwt");
   }
 
   function authHeaders() {
@@ -245,26 +241,93 @@
     return headers;
   }
 
+  async function readJson(response) {
+    const text = await response.text();
+    if (!text) return {};
+    try {
+      return JSON.parse(text);
+    } catch {
+      return { ok: false, error: "The registry returned an unexpected response." };
+    }
+  }
+
   function api(url, options = {}) {
     const headers = { ...authHeaders(), ...(options.headers || {}) };
     if (options.body && !headers["Content-Type"]) headers["Content-Type"] = "application/json";
-    return fetch(url, { credentials: "include", ...options, headers });
+    return fetch(url, { credentials: "include", cache: "no-store", ...options, headers });
+  }
+
+  let stayOnSite = false;
+
+  function goInternal(href) {
+    stayOnSite = true;
+    window.location.assign(href);
+  }
+
+  function logoutQuietly() {
+    setToken("");
+    try {
+      navigator.sendBeacon("/api/logout");
+    } catch {
+      fetch("/api/logout", { method: "POST", credentials: "include", keepalive: true }).catch(() => {});
+    }
   }
 
   async function signOut(redirect = "login.html") {
+    stayOnSite = true;
     setToken("");
     await api("/api/logout", { method: "POST" }).catch(() => {});
-    window.location.assign(redirect);
+    window.location.replace(redirect);
   }
 
   function routeAfterAuth(payload) {
     if (payload.token) setToken(payload.token);
     if (payload.citizen?.role === "admin") {
-      window.location.assign("admin.html");
+      goInternal("admin.html");
       return;
     }
     const next = new URLSearchParams(window.location.search).get("next");
-    window.location.assign(next && /\.html$/i.test(next) ? next : "portal.html");
+    goInternal(next && /\.html$/i.test(next) ? next : "portal.html");
+  }
+
+  function initLeaveSiteLogout() {
+    document.addEventListener(
+      "click",
+      (event) => {
+        const link = event.target.closest("a[href]");
+        if (!link) return;
+        try {
+          const url = new URL(link.href, window.location.href);
+          if (url.origin === window.location.origin) stayOnSite = true;
+        } catch {
+          stayOnSite = true;
+        }
+      },
+      true
+    );
+
+    window.addEventListener("pagehide", () => {
+      if (stayOnSite) {
+        stayOnSite = false;
+        return;
+      }
+      logoutQuietly();
+    });
+
+    window.addEventListener("pageshow", (event) => {
+      const gated = Boolean(
+        document.getElementById("portal-workspace") || document.querySelector("[data-applications]")
+      );
+      if (!gated) return;
+      if (event.persisted) {
+        restoreSession().then(({ res, payload }) => {
+          if (!res.ok || !payload.citizen) {
+            stayOnSite = true;
+            window.location.replace("login.html");
+          }
+        });
+      }
+    });
   }
 
   const REGIONS = {
@@ -302,7 +365,7 @@
           method: "POST",
           body: JSON.stringify(data),
         });
-        const payload = await response.json().catch(() => ({}));
+        const payload = await readJson(response);
         if (!response.ok || !payload.ok) {
           toast(payload.error || "Registration could not be saved.");
           return;
@@ -310,7 +373,7 @@
         toast("Account created. Complete your citizenship application.");
         routeAfterAuth(payload);
       } catch {
-        toast("Could not reach the Cheria registry. Start the local API server.");
+        toast("Could not reach the Cheria registry.");
       } finally {
         submit.disabled = false;
         submit.innerHTML = original;
@@ -332,7 +395,7 @@
           method: "POST",
           body: JSON.stringify(data),
         });
-        const payload = await response.json().catch(() => ({}));
+        const payload = await readJson(response);
         if (!response.ok || !payload.ok) {
           toast(payload.error || "Could not sign in.");
           return;
@@ -359,7 +422,7 @@
 
   function restoreSession() {
     return api("/api/me")
-      .then((res) => res.json().then((payload) => ({ res, payload })))
+      .then(async (res) => ({ res, payload: await readJson(res) }))
       .then(({ res, payload }) => {
         if (res.ok && payload.ok && payload.token) setToken(payload.token);
         return { res, payload };
@@ -429,7 +492,7 @@
           method: "POST",
           body: JSON.stringify(data),
         });
-        const payload = await response.json().catch(() => ({}));
+        const payload = await readJson(response);
         if (!response.ok || !payload.ok) {
           toast(payload.error || "Could not submit your application.");
           return;
@@ -455,7 +518,7 @@
     restoreSession().then(({ res, payload }) => {
         if (!res.ok || !payload.ok || !payload.citizen) {
           if (res.status === 401) {
-            window.location.assign("login.html?next=portal.html");
+            goInternal("login.html?next=portal.html");
           } else {
             toast("Could not open your portal.");
           }
@@ -463,7 +526,7 @@
         }
         const citizen = payload.citizen;
         if (citizen.role === "admin") {
-          window.location.assign("admin.html");
+          goInternal("admin.html");
           return;
         }
         fillCitizen(citizen);
@@ -583,16 +646,16 @@
     };
 
     const load = () =>
-      api("/api/admin/applications")
-        .then((res) => res.json().then((payload) => ({ res, payload })))
+      api("/api/admin-applications")
+        .then(async (res) => ({ res, payload: await readJson(res) }))
         .then(({ res, payload }) => {
           if (res.status === 401) {
-            window.location.assign("login.html?next=admin.html");
+            goInternal("login.html?next=admin.html");
             return;
           }
           if (res.status === 403) {
             toast(payload.error || "Admin access only.");
-            window.location.assign("portal.html");
+            goInternal("portal.html");
             return;
           }
           if (!res.ok || !payload.ok) {
@@ -622,11 +685,11 @@
       if (!id) return;
       button.disabled = true;
       try {
-        const response = await api("/api/admin/review", {
+        const response = await api("/api/admin-review", {
           method: "POST",
           body: JSON.stringify({ id, action, note }),
         });
-        const payload = await response.json().catch(() => ({}));
+        const payload = await readJson(response);
         if (!response.ok || !payload.ok) {
           toast(payload.error || "Could not update the application.");
           return;
@@ -642,12 +705,12 @@
 
     restoreSession().then(({ res, payload }) => {
       if (res.status === 401 || !payload.citizen) {
-        window.location.assign("login.html?next=admin.html");
+        goInternal("login.html?next=admin.html");
         return;
       }
       if (payload.citizen.role !== "admin") {
         toast("Admin access only.");
-        window.location.assign("portal.html");
+        goInternal("portal.html");
         return;
       }
       load();
@@ -693,6 +756,7 @@
   initPortal();
   initAdmin();
   bindLogout();
+  initLeaveSiteLogout();
   initTooltips();
   if (!document.getElementById("portal-workspace") && !document.querySelector("[data-applications]")) {
     restoreSession();

@@ -1,4 +1,4 @@
-import { handleAdminApplications } from "../../lib/handlers.js";
+import { handleAdminApplications } from "../lib/handlers.js";
 
 export default async function handler(req, res) {
   if (req.method !== "GET") {

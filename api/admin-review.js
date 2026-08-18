@@ -1,4 +1,4 @@
-import { handleAdminReview } from "../../lib/handlers.js";
+import { handleAdminReview } from "../lib/handlers.js";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {
