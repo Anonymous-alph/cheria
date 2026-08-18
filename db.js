@@ -160,7 +160,7 @@ export async function ensureAdmin(sqlClient) {
     email: process.env.ADMIN_EMAIL || DEFAULT_ADMIN_EMAIL,
     password: process.env.ADMIN_PASSWORD || DEFAULT_ADMIN_PASSWORD,
     given_name: "Shivam",
-    family_name: "Cheria",
+    family_name: "Adabala",
     dob: "1994-07-07",
     address: "Ministry of Technology, Capital of Cheria",
     note: "Seeded Tech Minister admin",
