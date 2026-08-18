@@ -512,6 +512,7 @@
     const application = document.getElementById("portal-application");
     const pending = document.getElementById("portal-pending");
     const rejected = document.getElementById("portal-rejected");
+    const barred = document.getElementById("portal-barred");
     const workspace = document.getElementById("portal-workspace");
     if (!application || !pending || !rejected || !workspace) return;
 
@@ -530,7 +531,13 @@
           return;
         }
         fillCitizen(citizen);
-        hidePortalSections([application, pending, rejected, workspace]);
+        hidePortalSections([application, pending, rejected, workspace, barred]);
+
+        if (citizen.blacklisted) {
+          showPortalSection(barred, true);
+          initReveal();
+          return;
+        }
 
         if (citizen.status === "approved") {
           showPortalSection(workspace, true);
@@ -634,9 +641,12 @@
                     ? `<div class="flex flex-col gap-2 min-w-[180px]">
                         <button class="btn btn-wood py-2 px-4 font-label-md text-label-md" type="button" data-review="approve">Approve citizenship</button>
                         <button class="btn btn-ghost py-2 px-4 font-label-md text-label-md" type="button" data-review="reject">Reject</button>
+                        <button class="btn btn-ghost py-2 px-4 font-label-md text-label-md" type="button" data-blacklist-add>Blacklist</button>
                         <input class="form-input-cheria rounded-lg px-3 py-2" data-note placeholder="Review note (optional)">
                       </div>`
-                    : ""
+                    : `<div class="flex flex-col gap-2 min-w-[180px]">
+                        <button class="btn btn-ghost py-2 px-4 font-label-md text-label-md" type="button" data-blacklist-add>Blacklist</button>
+                      </div>`
                 }
               </div>
             </article>`;
@@ -696,10 +706,146 @@
         }
         toast(action === "approve" ? "Citizenship granted." : "Application rejected.");
         await load();
+        await loadBlacklist();
       } catch {
         toast("Could not reach the registry.");
       } finally {
         button.disabled = false;
+      }
+    });
+
+    const blacklistBox = document.querySelector("[data-blacklist]");
+    const blacklistForm = document.querySelector("[data-blacklist-form]");
+    const blacklistSelect = document.querySelector("[data-blacklist-select]");
+
+    const renderBlacklist = (entries) => {
+      if (!blacklistBox) return;
+      if (!entries.length) {
+        blacklistBox.innerHTML = '<p class="text-on-surface-variant">No registered individuals are currently blacklisted.</p>';
+        return;
+      }
+      blacklistBox.innerHTML = entries
+        .map((person) => `
+          <article class="card-lift bg-surface-container-lowest rounded-xl p-6 border border-primary-container/30" data-reveal style="border-top:4px solid #8B0000" data-blacklist-id="${escapeHtml(person.id)}">
+            <div class="flex flex-col md:flex-row md:items-start justify-between gap-4">
+              <div>
+                <p class="font-label-md text-label-md text-secondary uppercase tracking-widest mb-1">Blacklisted</p>
+                <h3 class="font-headline-md text-headline-md text-primary">${escapeHtml(person.given_name)} ${escapeHtml(person.family_name)}</h3>
+                <p class="text-on-surface-variant mt-1">${escapeHtml(person.email)}</p>
+                <p class="text-on-surface-variant mt-2">${escapeHtml(statusLabel(person.status))} · ${escapeHtml(formatDate(person.blacklisted_at))}</p>
+                ${person.blacklist_note ? `<p class="mt-2 text-secondary">Reason: ${escapeHtml(person.blacklist_note)}</p>` : ""}
+              </div>
+              <button class="btn btn-ghost py-2 px-4 font-label-md text-label-md" type="button" data-blacklist-remove>Remove from blacklist</button>
+            </div>
+          </article>`)
+        .join("");
+      initReveal();
+    };
+
+    const fillBlacklistSelect = (registered) => {
+      if (!blacklistSelect) return;
+      const current = blacklistSelect.value;
+      blacklistSelect.innerHTML =
+        '<option value="">Select a person</option>' +
+        registered
+          .map(
+            (person) =>
+              `<option value="${escapeHtml(person.id)}">${escapeHtml(person.given_name)} ${escapeHtml(person.family_name)} — ${escapeHtml(person.email)}</option>`
+          )
+          .join("");
+      if ([...blacklistSelect.options].some((opt) => opt.value === current)) {
+        blacklistSelect.value = current;
+      }
+    };
+
+    const loadBlacklist = () => {
+      if (!blacklistBox) return Promise.resolve();
+      return api("/api/admin-blacklist")
+        .then(async (res) => ({ res, payload: await readJson(res) }))
+        .then(({ res, payload }) => {
+          if (!res.ok || !payload.ok) {
+            const message = payload.error || "Could not load the blacklist.";
+            blacklistBox.innerHTML = `<p class="text-on-surface-variant">${escapeHtml(message)}</p>`;
+            return;
+          }
+          fillBlacklistSelect(payload.registered || []);
+          renderBlacklist(payload.blacklisted || []);
+        })
+        .catch(() => {
+          blacklistBox.innerHTML = '<p class="text-on-surface-variant">Could not load the blacklist.</p>';
+        });
+    };
+
+    const updateBlacklist = async (body, successMessage) => {
+      const response = await api("/api/admin-blacklist", {
+        method: "POST",
+        body: JSON.stringify(body),
+      });
+      const payload = await readJson(response);
+      if (!response.ok || !payload.ok) {
+        toast(payload.error || "Could not update the blacklist.");
+        return false;
+      }
+      toast(successMessage);
+      await load();
+      await loadBlacklist();
+      return true;
+    };
+
+    list.addEventListener("click", async (event) => {
+      const addBtn = event.target.closest("[data-blacklist-add]");
+      if (!addBtn) return;
+      event.preventDefault();
+      event.stopPropagation();
+      const card = addBtn.closest("[data-app]");
+      const id = card?.getAttribute("data-app");
+      const note = card?.querySelector("[data-note]")?.value || "";
+      if (!id) return;
+      addBtn.disabled = true;
+      try {
+        await updateBlacklist({ id, action: "add", note }, "Individual added to the blacklist.");
+      } catch {
+        toast("Could not reach the registry.");
+      } finally {
+        addBtn.disabled = false;
+      }
+    });
+
+    blacklistBox?.addEventListener("click", async (event) => {
+      const button = event.target.closest("[data-blacklist-remove]");
+      if (!button) return;
+      const card = button.closest("[data-blacklist-id]");
+      const id = card?.getAttribute("data-blacklist-id");
+      if (!id) return;
+      button.disabled = true;
+      try {
+        await updateBlacklist({ id, action: "remove" }, "Individual removed from the blacklist.");
+      } catch {
+        toast("Could not reach the registry.");
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    blacklistForm?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const submit = blacklistForm.querySelector("[type='submit']");
+      const data = Object.fromEntries(new FormData(blacklistForm).entries());
+      if (!data.id) {
+        toast("Select a registered individual.");
+        return;
+      }
+      submit.disabled = true;
+      try {
+        const ok = await updateBlacklist(
+          { id: data.id, action: "add", note: data.note || "" },
+          "Individual added to the blacklist."
+        );
+        if (ok) blacklistForm.reset();
+      } catch {
+        toast("Could not reach the registry.");
+      } finally {
+        submit.disabled = false;
       }
     });
 
@@ -714,6 +860,7 @@
         return;
       }
       load();
+      loadBlacklist();
     });
   }
 

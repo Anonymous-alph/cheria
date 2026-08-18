@@ -53,7 +53,29 @@
         <h1 class="font-headline-lg text-headline-lg text-secondary mb-2" data-admin-name data-hero-item data-reveal>Citizenship review</h1>
         <p class="text-on-surface-variant max-w-2xl" data-hero-item data-reveal>Review citizenship dossiers submitted after login. Approve or reject tentative citizens once their application is complete.</p>
       </div>
-      <div class="space-y-gutter" data-applications data-stagger></div>
+      <div class="mb-xl">
+        <div class="space-y-gutter" data-applications data-stagger></div>
+      </div>
+
+      <section class="mt-xl pt-lg border-t border-outline-variant/20" data-hero>
+        <p class="font-label-md text-label-md text-secondary uppercase tracking-widest mb-2">Sanctions</p>
+        <h2 class="font-headline-lg text-headline-lg text-secondary mb-2">Blacklist</h2>
+        <p class="text-on-surface-variant max-w-2xl mb-lg">Bar registered individuals from signing in or using Cheria services. Removal restores their account to its previous review status.</p>
+        <form class="bg-surface-container-lowest rounded-xl p-6 border border-primary-container/30 mb-lg grid grid-cols-1 md:grid-cols-3 gap-4 items-end" data-blacklist-form style="border-top:4px solid #8B0000">
+          <div class="space-y-base md:col-span-1">
+            <label class="block font-label-md text-label-md text-on-surface" for="blacklist_person">Registered individual</label>
+            <select class="w-full rounded-lg form-input-cheria px-4 py-3" id="blacklist_person" name="id" required data-blacklist-select>
+              <option value="">Select a person</option>
+            </select>
+          </div>
+          <div class="space-y-base md:col-span-1">
+            <label class="block font-label-md text-label-md text-on-surface" for="blacklist_note">Reason (optional)</label>
+            <input class="w-full rounded-lg form-input-cheria px-4 py-3" id="blacklist_note" name="note" type="text" placeholder="Ministry reason">
+          </div>
+          <button class="btn btn-wood py-3 px-6 font-label-md text-label-md" type="submit">Add to blacklist</button>
+        </form>
+        <div class="space-y-gutter" data-blacklist></div>
+      </section>
     </main>
     <footer class="w-full mt-xl border-t-4 border-secondary bg-surface-container-highest" data-reveal>
       <div class="flex flex-col md:flex-row justify-between items-center gap-gutter px-margin-mobile md:px-margin-desktop py-lg max-w-7xl mx-auto">
