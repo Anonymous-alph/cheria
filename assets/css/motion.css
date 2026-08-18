@@ -19,32 +19,10 @@ body {
   overflow-x: hidden;
 }
 
-@view-transition {
-  navigation: auto;
-}
-
-::view-transition-old(root) {
-  animation: page-leave var(--motion-slow) var(--ease-in-out) both;
-}
-
-::view-transition-new(root) {
-  animation: page-enter var(--motion-slow) var(--ease-out) both;
-}
-
-::view-transition-group(site-header) {
-  animation-duration: var(--motion-med);
-}
-
-::view-transition-group(site-logo) {
-  animation-duration: var(--motion-med);
-}
-
-.site-header {
-  view-transition-name: site-header;
-}
-
 .brand-mark {
-  view-transition-name: site-logo;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
 }
 
 @keyframes page-leave {

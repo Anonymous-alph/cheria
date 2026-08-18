@@ -1,6 +1,5 @@
 (() => {
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const supportsViewTransition = "startViewTransition" in document;
   const PAGE_LINKS = "a[href$='.html']";
 
   const toastStack = document.createElement("div");
@@ -131,27 +130,37 @@
     document.body.style.overflow = "";
   }
 
+  function homeUrl() {
+    return new URL("index.html", window.location.href).href;
+  }
+
+  function goHome() {
+    window.location.assign(homeUrl());
+  }
+
   function navigate(href) {
-    if (reduceMotion) {
-      window.location.href = href;
+    const next = new URL(href, window.location.href);
+    if (next.origin === window.location.origin && next.pathname === window.location.pathname) {
       return;
     }
-    if (supportsViewTransition) {
-      document.startViewTransition(() => {
-        window.location.href = href;
+    window.location.assign(href);
+  }
+
+  function initBrandHome() {
+    document.querySelectorAll("a.brand-mark").forEach((link) => {
+      link.setAttribute("href", "index.html");
+      link.setAttribute("aria-label", "Kingdom of Cheria home");
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        goHome();
       });
-      return;
-    }
-    document.querySelector(".page-shell")?.classList.add("page-leave");
-    veil.classList.add("is-active");
-    setTimeout(() => {
-      window.location.href = href;
-    }, 520);
+    });
   }
 
   function initPageTransitions() {
-    if (supportsViewTransition) return;
     document.querySelectorAll(PAGE_LINKS).forEach((link) => {
+      if (link.classList.contains("brand-mark")) return;
       link.addEventListener("click", (event) => {
         const url = new URL(link.href, window.location.href);
         if (url.origin !== window.location.origin) return;
@@ -308,6 +317,7 @@
   initParallax();
   initDrawer();
   initModals();
+  initBrandHome();
   initPageTransitions();
   initCounters();
   initRings();
