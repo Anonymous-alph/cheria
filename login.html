@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign in — Kingdom of Cheria</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script src="assets/js/tailwind-theme.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/motion.css">
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col antialiased">
+  <div class="scroll-progress"></div>
+  <header class="site-header">
+    <div class="header-inner flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 max-w-7xl mx-auto">
+      <a href="index.html" class="brand-mark flex items-center gap-sm no-underline text-inherit cursor-pointer" aria-label="Kingdom of Cheria home">
+        <span class="material-symbols-outlined text-primary">account_balance</span>
+        <span class="font-headline-md text-headline-md font-bold text-secondary">Kingdom of Cheria</span>
+      </a>
+      <nav class="hidden md:flex gap-md items-center">
+        <a class="nav-link font-label-md text-label-md" href="index.html">Home</a>
+        <a class="nav-link font-label-md text-label-md" href="about.html">About Cheria</a>
+        <a class="nav-link font-label-md text-label-md" href="ministers.html">Ministers</a>
+        <a class="nav-link font-label-md text-label-md" href="service-registration.html">Registration</a>
+        <a class="nav-link font-label-md text-label-md is-active" href="login.html">Sign in</a>
+        <a class="nav-link font-label-md text-label-md" href="portal.html">Portal</a>
+      </nav>
+      <button class="md:hidden text-primary" id="mobile-menu-btn" aria-label="Open menu" aria-expanded="false">
+        <span class="menu-icon"><span></span><span></span><span></span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="drawer" id="mobile-drawer">
+    <div class="drawer-overlay"></div>
+    <aside class="drawer-panel py-base">
+      <div class="px-6 py-4 border-b border-outline-variant/20 mb-4">
+        <h2 class="font-headline-md text-headline-md text-secondary">Government Services</h2>
+      </div>
+      <nav class="flex-1 flex flex-col gap-2">
+        <a class="drawer-item text-on-surface-variant rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="index.html"><span class="material-symbols-outlined">home</span>Home</a>
+        <a class="drawer-item text-on-surface-variant rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="about.html"><span class="material-symbols-outlined">history_edu</span>About Cheria</a>
+        <a class="drawer-item text-on-surface-variant rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="ministers.html"><span class="material-symbols-outlined">group</span>Ministers</a>
+        <a class="drawer-item text-on-surface-variant rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="service-registration.html"><span class="material-symbols-outlined">app_registration</span>Registration</a>
+        <a class="drawer-item bg-primary-container text-on-primary-container rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="login.html"><span class="material-symbols-outlined">login</span>Sign in</a>
+        <a class="drawer-item text-on-surface-variant rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="portal.html"><span class="material-symbols-outlined">dashboard</span>Portal</a>
+      </nav>
+    </aside>
+  </div>
+
+  <div class="page-shell flex flex-col min-h-screen">
+    <main class="flex-grow pt-[120px] pb-xl px-margin-mobile md:px-margin-desktop flex items-center justify-center relative overflow-hidden">
+      <div class="absolute -top-[10%] -left-[10%] w-[40%] h-[40%] rounded-full bg-primary-container blur-[100px] opacity-30 pointer-events-none" data-parallax="16"></div>
+      <div class="w-full max-w-5xl relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-gutter items-stretch" data-hero>
+        <div class="flex flex-col justify-center" data-hero-item data-reveal>
+          <p class="font-label-md text-label-md text-secondary uppercase tracking-widest mb-3">Official access</p>
+          <h1 class="font-headline-lg text-headline-lg md:font-display-lg md:text-display-lg text-secondary mb-base">Sign in to Cheria</h1>
+          <p class="text-on-surface-variant max-w-md">Use your digital address and password. After registration, sign in and submit your citizenship application for ministry review.</p>
+        </div>
+        <div class="bg-surface-container-lowest rounded-xl p-margin-mobile md:p-8 border border-outline-variant/20" data-hero-item data-reveal style="border-top:4px solid #8B0000; box-shadow: var(--petal-shadow)">
+          <form class="space-y-md" data-login-form>
+            <div class="space-y-base">
+              <label class="block font-label-md text-label-md text-on-surface" for="login_email">Digital Address</label>
+              <input class="w-full rounded-lg form-input-cheria px-4 py-3" id="login_email" name="email" type="email" required autocomplete="username" placeholder="citizen@cheria.gov.ch">
+            </div>
+            <div class="space-y-base">
+              <label class="block font-label-md text-label-md text-on-surface" for="login_password">Password</label>
+              <input class="w-full rounded-lg form-input-cheria px-4 py-3" id="login_password" name="password" type="password" required minlength="8" autocomplete="current-password">
+            </div>
+            <button class="btn btn-wood w-full py-3 font-label-md text-label-md" type="submit">Sign in</button>
+          </form>
+          <p class="mt-6 text-center text-on-surface-variant font-body-md text-body-md">
+            Need citizenship?
+            <a class="text-secondary font-bold hover:underline" href="service-registration.html">Register</a>
+          </p>
+        </div>
+      </div>
+    </main>
+    <footer class="w-full mt-xl border-t-4 border-secondary bg-surface-container-highest" data-reveal>
+      <div class="flex flex-col md:flex-row justify-between items-center gap-gutter px-margin-mobile md:px-margin-desktop py-lg max-w-7xl mx-auto">
+        <span class="font-headline-md text-headline-md text-secondary">Kingdom of Cheria</span>
+        <span class="text-on-surface-variant">Secure sign-in</span>
+      </div>
+    </footer>
+  </div>
+  <script src="assets/js/cheria.js"></script>
+</body>
+</html>

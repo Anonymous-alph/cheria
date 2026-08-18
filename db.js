@@ -2,6 +2,12 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { neon } from "@neondatabase/serverless";
+import {
+  DEFAULT_ADMIN_EMAIL,
+  DEFAULT_ADMIN_PASSWORD,
+  hashPassword,
+  verifyPassword,
+} from "./lib/auth.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -32,6 +38,19 @@ CREATE TABLE IF NOT EXISTS citizens (
   terms_accepted BOOLEAN NOT NULL DEFAULT FALSE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
+ALTER TABLE citizens ADD COLUMN IF NOT EXISTS password_hash TEXT;
+ALTER TABLE citizens ADD COLUMN IF NOT EXISTS role TEXT NOT NULL DEFAULT 'citizen';
+ALTER TABLE citizens ADD COLUMN IF NOT EXISTS status TEXT NOT NULL DEFAULT 'registered';
+ALTER TABLE citizens ADD COLUMN IF NOT EXISTS review_note TEXT NOT NULL DEFAULT '';
+ALTER TABLE citizens ADD COLUMN IF NOT EXISTS reviewed_at TIMESTAMPTZ;
+ALTER TABLE citizens ADD COLUMN IF NOT EXISTS current_citizenship TEXT NOT NULL DEFAULT '';
+ALTER TABLE citizens ADD COLUMN IF NOT EXISTS dual_citizenship_reason TEXT NOT NULL DEFAULT '';
+ALTER TABLE citizens ADD COLUMN IF NOT EXISTS leadership_qualities TEXT NOT NULL DEFAULT '';
+ALTER TABLE citizens ADD COLUMN IF NOT EXISTS join_reason TEXT NOT NULL DEFAULT '';
+ALTER TABLE citizens ADD COLUMN IF NOT EXISTS knows_official BOOLEAN NOT NULL DEFAULT FALSE;
+ALTER TABLE citizens ADD COLUMN IF NOT EXISTS official_name TEXT NOT NULL DEFAULT '';
+ALTER TABLE citizens ADD COLUMN IF NOT EXISTS recommendation TEXT NOT NULL DEFAULT '';
+ALTER TABLE citizens ADD COLUMN IF NOT EXISTS applied_at TIMESTAMPTZ;
 INSERT INTO regions (slug, name) VALUES
   ('central_blossom', 'Central Blossom District'),
   ('eastern_woods', 'Eastern Redwood Expanse'),
@@ -91,12 +110,46 @@ export async function ensureSchema(sqlClient) {
   }
 }
 
+export async function ensureAdmin(sqlClient) {
+  const email = (process.env.ADMIN_EMAIL || DEFAULT_ADMIN_EMAIL).trim().toLowerCase();
+  const password = process.env.ADMIN_PASSWORD || DEFAULT_ADMIN_PASSWORD;
+  const existing = await sqlClient`
+    select id, password_hash from citizens where email = ${email}
+  `;
+  const passwordOk =
+    existing[0]?.password_hash && (await verifyPassword(password, existing[0].password_hash));
+  const password_hash = passwordOk ? existing[0].password_hash : await hashPassword(password);
+
+  if (!existing[0]) {
+    await sqlClient`
+      insert into citizens (
+        given_name, family_name, dob, region, email, address, terms_accepted,
+        password_hash, role, status, review_note, reviewed_at
+      ) values (
+        'Shivam', 'Cheria', '1994-07-07', 'central_blossom', ${email},
+        'Ministry of Technology, Capital of Cheria', true,
+        ${password_hash}, 'admin', 'approved', 'Seeded Tech Minister admin', now()
+      )
+    `;
+    return;
+  }
+
+  await sqlClient`
+    update citizens
+    set role = 'admin',
+        status = 'approved',
+        given_name = 'Shivam',
+        password_hash = ${password_hash}
+    where email = ${email}
+  `;
+}
+
 export async function getReadySql() {
   if (!getDatabaseUrl()) {
     throw new Error("DATABASE_URL is not set.");
   }
   sql ??= createSql();
-  schemaPromise ??= ensureSchema(sql);
+  schemaPromise ??= ensureSchema(sql).then(() => ensureAdmin(sql));
   await schemaPromise;
   return sql;
 }

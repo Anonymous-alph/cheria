@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Citizenship Review — Kingdom of Cheria</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script src="assets/js/tailwind-theme.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/motion.css">
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex flex-col antialiased">
+  <div class="scroll-progress"></div>
+  <header class="site-header">
+    <div class="header-inner flex justify-between items-center px-margin-mobile md:px-margin-desktop py-4 max-w-7xl mx-auto">
+      <a href="index.html" class="brand-mark flex items-center gap-sm no-underline text-inherit cursor-pointer" aria-label="Kingdom of Cheria home">
+        <span class="material-symbols-outlined text-primary">account_balance</span>
+        <span class="font-headline-md text-headline-md font-bold text-secondary">Kingdom of Cheria</span>
+      </a>
+      <nav class="hidden md:flex gap-md items-center">
+        <a class="nav-link font-label-md text-label-md" href="index.html">Home</a>
+        <a class="nav-link font-label-md text-label-md" href="ministers.html">Ministers</a>
+        <a class="nav-link font-label-md text-label-md is-active" href="admin.html">Review</a>
+        <button class="nav-link font-label-md text-label-md bg-transparent border-0 cursor-pointer" type="button" data-logout>Sign out</button>
+      </nav>
+      <button class="md:hidden text-primary" id="mobile-menu-btn" aria-label="Open menu" aria-expanded="false">
+        <span class="menu-icon"><span></span><span></span><span></span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="drawer" id="mobile-drawer">
+    <div class="drawer-overlay"></div>
+    <aside class="drawer-panel py-base">
+      <div class="px-6 py-4 border-b border-outline-variant/20 mb-4">
+        <h2 class="font-headline-md text-headline-md text-secondary">Ministry desk</h2>
+      </div>
+      <nav class="flex-1 flex flex-col gap-2">
+        <a class="drawer-item text-on-surface-variant rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="index.html"><span class="material-symbols-outlined">home</span>Home</a>
+        <a class="drawer-item bg-primary-container text-on-primary-container rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md" href="admin.html"><span class="material-symbols-outlined">policy</span>Review</a>
+        <button class="drawer-item text-on-surface-variant rounded-full mx-2 px-4 py-3 flex items-center gap-4 font-label-md text-label-md bg-transparent border-0 text-left cursor-pointer" type="button" data-logout><span class="material-symbols-outlined">logout</span>Sign out</button>
+      </nav>
+    </aside>
+  </div>
+
+  <div class="page-shell flex flex-col min-h-screen">
+    <main class="flex-grow pt-28 px-margin-mobile md:px-margin-desktop max-w-7xl mx-auto w-full pb-xl">
+      <div class="mb-lg" data-hero>
+        <p class="font-label-md text-label-md text-secondary uppercase tracking-widest mb-2">Tech Minister desk</p>
+        <h1 class="font-headline-lg text-headline-lg text-secondary mb-2" data-admin-name data-hero-item data-reveal>Citizenship review</h1>
+        <p class="text-on-surface-variant max-w-2xl" data-hero-item data-reveal>Review citizenship dossiers submitted after login. Approve or reject tentative citizens once their application is complete.</p>
+      </div>
+      <div class="space-y-gutter" data-applications data-stagger></div>
+    </main>
+    <footer class="w-full mt-xl border-t-4 border-secondary bg-surface-container-highest" data-reveal>
+      <div class="flex flex-col md:flex-row justify-between items-center gap-gutter px-margin-mobile md:px-margin-desktop py-lg max-w-7xl mx-auto">
+        <span class="font-headline-md text-headline-md text-secondary">Kingdom of Cheria</span>
+        <span class="text-on-surface-variant">Restricted ministry review</span>
+      </div>
+    </footer>
+  </div>
+  <script src="assets/js/cheria.js"></script>
+</body>
+</html>

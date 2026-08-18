@@ -199,7 +199,12 @@
         }
       });
     }, { threshold: 0.4 });
-    counters.forEach((el) => observer.observe(el));
+    counters
+      .filter((el) => !el.dataset.counted && el.offsetParent)
+      .forEach((el) => {
+        el.dataset.counted = "1";
+        observer.observe(el);
+      });
   }
 
   function initRings() {
@@ -254,6 +259,51 @@
     });
   }
 
+  function getToken() {
+    return localStorage.getItem("cheria_jwt") || "";
+  }
+
+  function setToken(token) {
+    if (token) localStorage.setItem("cheria_jwt", token);
+    else localStorage.removeItem("cheria_jwt");
+  }
+
+  function authHeaders() {
+    const headers = {};
+    const token = getToken();
+    if (token) headers.Authorization = `Bearer ${token}`;
+    return headers;
+  }
+
+  function api(url, options = {}) {
+    const headers = { ...authHeaders(), ...(options.headers || {}) };
+    if (options.body && !headers["Content-Type"]) headers["Content-Type"] = "application/json";
+    return fetch(url, { credentials: "include", ...options, headers });
+  }
+
+  async function signOut(redirect = "login.html") {
+    setToken("");
+    await api("/api/logout", { method: "POST" }).catch(() => {});
+    window.location.assign(redirect);
+  }
+
+  function routeAfterAuth(payload) {
+    if (payload.token) setToken(payload.token);
+    if (payload.citizen?.role === "admin") {
+      window.location.assign("admin.html");
+      return;
+    }
+    const next = new URLSearchParams(window.location.search).get("next");
+    window.location.assign(next && /\.html$/i.test(next) ? next : "portal.html");
+  }
+
+  const REGIONS = {
+    central_blossom: "Central Blossom District",
+    eastern_woods: "Eastern Redwood Expanse",
+    western_petals: "Western Petal Shores",
+    northern_peaks: "Northern Serene Peaks",
+  };
+
   function initForm() {
     const form = document.querySelector("[data-register-form]");
     if (!form) return;
@@ -266,11 +316,20 @@
 
       const data = Object.fromEntries(new FormData(form).entries());
       data.terms = Boolean(form.querySelector("[name='terms']")?.checked);
+      delete data.role;
+      delete data.status;
+      delete data.admin;
+      if (data.password_confirm && data.password !== data.password_confirm) {
+        toast("Passwords do not match.");
+        submit.disabled = false;
+        submit.innerHTML = original;
+        return;
+      }
+      delete data.password_confirm;
 
       try {
-        const response = await fetch("/api/register", {
+        const response = await api("/api/register", {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data),
         });
         const payload = await response.json().catch(() => ({}));
@@ -278,8 +337,8 @@
           toast(payload.error || "Registration could not be saved.");
           return;
         }
-        toast("Registration received. Welcome to Cheria.");
-        form.reset();
+        toast("Account created. Complete your citizenship application.");
+        routeAfterAuth(payload);
       } catch {
         toast("Could not reach the Cheria registry. Start the local API server.");
       } finally {
@@ -287,6 +346,313 @@
         submit.innerHTML = original;
       }
     });
+  }
+
+  function initLogin() {
+    const form = document.querySelector("[data-login-form]");
+    if (!form) return;
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const submit = form.querySelector("[type='submit']");
+      const original = submit.innerHTML;
+      submit.disabled = true;
+      try {
+        const data = Object.fromEntries(new FormData(form).entries());
+        const response = await api("/api/login", {
+          method: "POST",
+          body: JSON.stringify(data),
+        });
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok || !payload.ok) {
+          toast(payload.error || "Could not sign in.");
+          return;
+        }
+        routeAfterAuth(payload);
+      } catch {
+        toast("Could not reach the Cheria registry.");
+      } finally {
+        submit.disabled = false;
+        submit.innerHTML = original;
+      }
+    });
+  }
+
+  function bindLogout() {
+    document.querySelectorAll("[data-logout]").forEach((btn) => {
+      btn.addEventListener("click", () => signOut("login.html"));
+    });
+  }
+
+  function fillCitizen(citizen) {
+    document.querySelectorAll("[data-citizen-name]").forEach((name) => {
+      name.textContent = `Welcome, ${citizen.given_name} ${citizen.family_name}`;
+    });
+    document.querySelectorAll("[data-citizen-meta]").forEach((meta) => {
+      const region = REGIONS[citizen.region] || citizen.region || "Cheria";
+      meta.textContent = `${citizen.email} · ${region}`;
+    });
+    document.querySelectorAll("[data-review-note]").forEach((note) => {
+      if (citizen.review_note) note.textContent = citizen.review_note;
+    });
+  }
+
+  function needsApplication(citizen) {
+    return citizen.status === "registered" || (citizen.status === "pending" && !citizen.applied_at);
+  }
+
+  function hidePortalSections(sections) {
+    sections.forEach((el) => el?.classList.add("hidden"));
+  }
+
+  function showPortalSection(el, asFlex = false) {
+    if (!el) return;
+    el.classList.remove("hidden");
+    if (asFlex) el.classList.add("flex");
+  }
+
+  function initApplicationForm() {
+    const form = document.querySelector("[data-application-form]");
+    if (!form) return;
+
+    const knows = form.querySelector("#knows_official");
+    const fields = form.querySelector("[data-official-fields]");
+    const officialSelect = form.querySelector("#official_name");
+    const recommendation = form.querySelector("#recommendation");
+
+    const syncOfficialFields = () => {
+      const on = Boolean(knows?.checked);
+      fields?.classList.toggle("hidden", !on);
+      if (officialSelect) officialSelect.required = on;
+      if (recommendation) recommendation.required = on;
+      if (!on) {
+        if (officialSelect) officialSelect.value = "";
+        if (recommendation) recommendation.value = "";
+      }
+    };
+
+    knows?.addEventListener("change", syncOfficialFields);
+    syncOfficialFields();
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const submit = form.querySelector("[type='submit']");
+      const original = submit.innerHTML;
+      submit.disabled = true;
+      try {
+        const data = Object.fromEntries(new FormData(form).entries());
+        data.knows_official = Boolean(knows?.checked);
+        const response = await api("/api/application", {
+          method: "POST",
+          body: JSON.stringify(data),
+        });
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok || !payload.ok) {
+          toast(payload.error || "Could not submit your application.");
+          return;
+        }
+        toast("Citizenship application submitted for ministry review.");
+        window.location.reload();
+      } catch {
+        toast("Could not reach the Cheria registry.");
+      } finally {
+        submit.disabled = false;
+        submit.innerHTML = original;
+      }
+    });
+  }
+
+  function initPortal() {
+    const application = document.getElementById("portal-application");
+    const pending = document.getElementById("portal-pending");
+    const rejected = document.getElementById("portal-rejected");
+    const workspace = document.getElementById("portal-workspace");
+    if (!application || !pending || !rejected || !workspace) return;
+
+    if (!getToken()) {
+      window.location.assign("login.html?next=portal.html");
+      return;
+    }
+
+    api("/api/me")
+      .then((res) => res.json().then((payload) => ({ res, payload })))
+      .then(({ res, payload }) => {
+        if (!res.ok || !payload.ok || !payload.citizen) {
+          setToken("");
+          window.location.assign("login.html?next=portal.html");
+          return;
+        }
+        const citizen = payload.citizen;
+        if (citizen.role === "admin") {
+          window.location.assign("admin.html");
+          return;
+        }
+        fillCitizen(citizen);
+        hidePortalSections([application, pending, rejected, workspace]);
+
+        if (citizen.status === "approved") {
+          showPortalSection(workspace, true);
+          initCounters();
+          initRings();
+          initReveal();
+          return;
+        }
+        if (citizen.status === "rejected") {
+          showPortalSection(rejected, true);
+          initReveal();
+          return;
+        }
+        if (needsApplication(citizen)) {
+          showPortalSection(application);
+          initApplicationForm();
+          initReveal();
+          return;
+        }
+        showPortalSection(pending, true);
+        initReveal();
+      })
+      .catch(() => {
+        toast("Could not open your portal.");
+      });
+  }
+
+  function statusLabel(status) {
+    if (status === "approved") return "Approved";
+    if (status === "rejected") return "Rejected";
+    if (status === "registered") return "Registered only";
+    return "Pending review";
+  }
+
+  function formatDate(value) {
+    if (!value) return "—";
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return "—";
+    return date.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+  }
+
+  function applicationDetails(app) {
+    return `
+      <div class="mt-4 pt-4 border-t border-outline-variant/20 space-y-3 text-sm">
+        <p><span class="font-label-md text-label-md text-secondary">Current citizenship:</span> ${escapeHtml(app.current_citizenship)}</p>
+        <p><span class="font-label-md text-label-md text-secondary">Dual citizenship reason:</span> ${escapeHtml(app.dual_citizenship_reason)}</p>
+        <p><span class="font-label-md text-label-md text-secondary">Leadership qualities:</span> ${escapeHtml(app.leadership_qualities)}</p>
+        <p><span class="font-label-md text-label-md text-secondary">Why Cheria:</span> ${escapeHtml(app.join_reason)}</p>
+        ${
+          app.knows_official
+            ? `<p><span class="font-label-md text-label-md text-secondary">Known official:</span> ${escapeHtml(app.official_name)}</p>
+               <p><span class="font-label-md text-label-md text-secondary">Recommendation:</span> ${escapeHtml(app.recommendation)}</p>`
+            : `<p class="text-on-surface-variant">No cofather or minister recommendation supplied.</p>`
+        }
+        <p class="text-on-surface-variant">Submitted ${escapeHtml(formatDate(app.applied_at))}</p>
+      </div>`;
+  }
+
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
+  }
+
+  function initAdmin() {
+    const list = document.querySelector("[data-applications]");
+    if (!list) return;
+
+    if (!getToken()) {
+      window.location.assign("login.html?next=admin.html");
+      return;
+    }
+
+    const render = (applications) => {
+      if (!applications.length) {
+        list.innerHTML = '<p class="text-on-surface-variant">No citizenship applications have been submitted yet.</p>';
+        return;
+      }
+      list.innerHTML = applications
+        .map((app) => {
+          const region = REGIONS[app.region] || app.region;
+          const dob = String(app.dob || "").slice(0, 10);
+          const pending = app.status === "pending";
+          return `
+            <article class="card-lift bg-surface-container-lowest rounded-xl p-6 border border-primary-container/30" data-reveal style="border-top:4px solid #8B0000" data-app="${escapeHtml(app.id)}">
+              <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
+                <div class="flex-1">
+                  <p class="font-label-md text-label-md text-secondary uppercase tracking-widest mb-1">${statusLabel(app.status)}</p>
+                  <h2 class="font-headline-md text-headline-md text-primary">${escapeHtml(app.given_name)} ${escapeHtml(app.family_name)}</h2>
+                  <p class="text-on-surface-variant mt-1">${escapeHtml(app.email)}</p>
+                  <p class="text-on-surface-variant mt-2">${escapeHtml(region)} · Born ${escapeHtml(dob || "—")}</p>
+                  <p class="text-on-surface-variant mt-2">${escapeHtml(app.address || "No residential address given.")}</p>
+                  ${applicationDetails(app)}
+                  ${app.review_note ? `<p class="mt-3 text-secondary font-label-md text-label-md">Ministry note: ${escapeHtml(app.review_note)}</p>` : ""}
+                </div>
+                ${
+                  pending
+                    ? `<div class="flex flex-col gap-2 min-w-[180px]">
+                        <button class="btn btn-wood py-2 px-4 font-label-md text-label-md" type="button" data-review="approve">Approve citizenship</button>
+                        <button class="btn btn-ghost py-2 px-4 font-label-md text-label-md" type="button" data-review="reject">Reject</button>
+                        <input class="form-input-cheria rounded-lg px-3 py-2" data-note placeholder="Review note (optional)">
+                      </div>`
+                    : ""
+                }
+              </div>
+            </article>`;
+        })
+        .join("");
+      initReveal();
+    };
+
+    const load = () =>
+      api("/api/admin/applications")
+        .then((res) => res.json().then((payload) => ({ res, payload })))
+        .then(({ res, payload }) => {
+          if (res.status === 401) {
+            setToken("");
+            window.location.assign("login.html?next=admin.html");
+            return;
+          }
+          if (res.status === 403) {
+            toast(payload.error || "Admin access only.");
+            window.location.assign("portal.html");
+            return;
+          }
+          if (!res.ok || !payload.ok) {
+            toast(payload.error || "Could not load applications.");
+            return;
+          }
+          const name = document.querySelector("[data-admin-name]");
+          if (name) name.textContent = `Citizenship review (${payload.applications?.length || 0})`;
+          render(payload.applications || []);
+        });
+
+    list.addEventListener("click", async (event) => {
+      const button = event.target.closest("[data-review]");
+      if (!button) return;
+      const card = button.closest("[data-app]");
+      const id = card?.getAttribute("data-app");
+      const action = button.getAttribute("data-review");
+      const note = card?.querySelector("[data-note]")?.value || "";
+      if (!id) return;
+      button.disabled = true;
+      try {
+        const response = await api("/api/admin/review", {
+          method: "POST",
+          body: JSON.stringify({ id, action, note }),
+        });
+        const payload = await response.json().catch(() => ({}));
+        if (!response.ok || !payload.ok) {
+          toast(payload.error || "Could not update the application.");
+          return;
+        }
+        toast(action === "approve" ? "Citizenship granted." : "Application rejected.");
+        await load();
+      } catch {
+        toast("Could not reach the registry.");
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    load();
   }
 
   function initTooltips() {
@@ -325,5 +691,9 @@
   initToggles();
   initSearch();
   initForm();
+  initLogin();
+  initPortal();
+  initAdmin();
+  bindLogout();
   initTooltips();
 })();
